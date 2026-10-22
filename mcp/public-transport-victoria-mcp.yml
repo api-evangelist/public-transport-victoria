@@ -1,0 +1,176 @@
+name: Public Transport Victoria MCP (candidate)
+type: MCPServer
+generated: '2026-10-22'
+method: generated
+source: Derived from openapi/public-transport-victoria-timetable-openapi.yml (26 GET operations). No official PTV MCP server
+  found (web search 2026-10-22); a third-party community server is listed on lobehub.com but is not published by PTV.
+status: candidate
+deployment:
+  mode: none
+  auth: api-key
+  verified: derived
+auth_note: PTV Timetable API requires a developer id (devid query param) and an HMAC signature (signature query param) issued
+  by PTV.
+upstream:
+  base_url: https://timetableapi.ptv.vic.gov.au
+  openapi: openapi/public-transport-victoria-timetable-openapi.yml
+search_evidence:
+- url: https://lobehub.com/mcp?q=ptv
+  note: community/third-party listings only; not official
+tools:
+- name: get_for_stop
+  description: View departures for all routes from a stop
+  operationId: Departures_GetForStop
+  method: GET
+  path: /v3/departures/route_type/{route_type}/stop/{stop_id}
+  status: candidate
+- name: get_for_stop_and_route
+  description: View departures for a specific route from a stop
+  operationId: Departures_GetForStopAndRoute
+  method: GET
+  path: /v3/departures/route_type/{route_type}/stop/{stop_id}/route/{route_id}
+  status: candidate
+- name: for_route
+  description: View directions that a route travels in
+  operationId: Directions_ForRoute
+  method: GET
+  path: /v3/directions/route/{route_id}
+  status: candidate
+- name: for_direction
+  description: View all routes for a direction of travel
+  operationId: Directions_ForDirection
+  method: GET
+  path: /v3/directions/{direction_id}
+  status: candidate
+- name: for_direction_and_type
+  description: View all routes of a particular type for a direction of travel
+  operationId: Directions_ForDirectionAndType
+  method: GET
+  path: /v3/directions/{direction_id}/route_type/{route_type}
+  status: candidate
+- name: get_all_disruptions
+  description: View all disruptions for all route types
+  operationId: Disruptions_GetAllDisruptions
+  method: GET
+  path: /v3/disruptions
+  status: candidate
+- name: get_disruptions_by_route
+  description: View all disruptions for a particular route
+  operationId: Disruptions_GetDisruptionsByRoute
+  method: GET
+  path: /v3/disruptions/route/{route_id}
+  status: candidate
+- name: get_disruptions_by_route_and_stop
+  description: View all disruptions for a particular route and stop
+  operationId: Disruptions_GetDisruptionsByRouteAndStop
+  method: GET
+  path: /v3/disruptions/route/{route_id}/stop/{stop_id}
+  status: candidate
+- name: get_disruptions_by_stop
+  description: View all disruptions for a particular stop
+  operationId: Disruptions_GetDisruptionsByStop
+  method: GET
+  path: /v3/disruptions/stop/{stop_id}
+  status: candidate
+- name: get_disruption_by_id
+  description: View a specific disruption
+  operationId: Disruptions_GetDisruptionById
+  method: GET
+  path: /v3/disruptions/{disruption_id}
+  status: candidate
+- name: get_disruption_modes
+  description: Get all disruption modes
+  operationId: Disruptions_GetDisruptionModes
+  method: GET
+  path: /v3/disruptions/modes
+  status: candidate
+- name: get_fare_estimate_by_zone
+  description: Estimate a fare by zone
+  operationId: FareEstimate_GetFareEstimateByZone
+  method: GET
+  path: /v3/fare_estimate/min_zone/{minZone}/max_zone/{maxZone}
+  status: candidate
+- name: get_all_outlets
+  description: List all ticket outlets
+  operationId: Outlets_GetAllOutlets
+  method: GET
+  path: /v3/outlets
+  status: candidate
+- name: get_outlets_by_geolocation
+  description: List ticket outlets near a specific location
+  operationId: Outlets_GetOutletsByGeolocation
+  method: GET
+  path: /v3/outlets/location/{latitude},{longitude}
+  status: candidate
+- name: get_pattern_by_run
+  description: View the stopping pattern for a specific trip/service run
+  operationId: Patterns_GetPatternByRun
+  method: GET
+  path: /v3/pattern/run/{run_ref}/route_type/{route_type}
+  status: candidate
+- name: one_or_more_routes
+  description: View route names and numbers for all routes
+  operationId: Routes_OneOrMoreRoutes
+  method: GET
+  path: /v3/routes
+  status: candidate
+- name: route_from_id
+  description: View route name and number for specific route ID
+  operationId: Routes_RouteFromId
+  method: GET
+  path: /v3/routes/{route_id}
+  status: candidate
+- name: get_route_types
+  description: View all route types and their names
+  operationId: RouteTypes_GetRouteTypes
+  method: GET
+  path: /v3/route_types
+  status: candidate
+- name: for_route
+  description: View all trip/service runs for a specific route ID
+  operationId: Runs_ForRoute
+  method: GET
+  path: /v3/runs/route/{route_id}
+  status: candidate
+- name: for_route_and_route_type
+  description: View all trip/service runs for a specific route ID and route type
+  operationId: Runs_ForRouteAndRouteType
+  method: GET
+  path: /v3/runs/route/{route_id}/route_type/{route_type}
+  status: candidate
+- name: for_run
+  description: View all trip/service runs for a specific run_ref
+  operationId: Runs_ForRun
+  method: GET
+  path: /v3/runs/{run_ref}
+  status: candidate
+- name: for_run_and_route_type
+  description: View the trip/service run for a specific run_ref and route type
+  operationId: Runs_ForRunAndRouteType
+  method: GET
+  path: /v3/runs/{run_ref}/route_type/{route_type}
+  status: candidate
+- name: search
+  description: View stops, routes and myki ticket outlets that match the search term
+  operationId: Search_Search
+  method: GET
+  path: /v3/search/{search_term}
+  status: candidate
+- name: stop_details
+  description: View facilities at a specific stop (Metro and V/Line stations only)
+  operationId: Stops_StopDetails
+  method: GET
+  path: /v3/stops/{stop_id}/route_type/{route_type}
+  status: candidate
+- name: stops_for_route
+  description: View all stops on a specific route
+  operationId: Stops_StopsForRoute
+  method: GET
+  path: /v3/stops/route/{route_id}/route_type/{route_type}
+  status: candidate
+- name: stops_by_geolocation
+  description: View all stops near a specific location
+  operationId: Stops_StopsByGeolocation
+  method: GET
+  path: /v3/stops/location/{latitude},{longitude}
+  status: candidate

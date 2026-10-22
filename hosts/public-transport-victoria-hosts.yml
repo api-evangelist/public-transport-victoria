@@ -1,0 +1,118 @@
+generated: '2026-10-22'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 8
+  own: 6
+  other_domain: 2
+  platform: 0
+  roles:
+  - api
+  - docs
+  - identity
+  - other
+  - website
+hosts:
+- host: api.gov.au
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: api.gov.au
+  role: api
+  relation: other-domain
+- host: discover.data.vic.gov.au
+  found_by:
+  - pointer
+  - probed
+  - docs-index
+  - contract-discovery
+  - well-known
+  types:
+  - Documentation
+  serves:
+  - docs
+  registrable_domain: vic.gov.au
+  role: docs
+  relation: own
+- host: ptv.vic.gov.au
+  found_by:
+  - pointer
+  - probed
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Website
+  serves:
+  - cdn
+  vendor: cloudflare
+  registrable_domain: vic.gov.au
+  role: website
+  relation: own
+- host: timetableapi.ptv.vic.gov.au
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - docs-index
+  - spec-found
+  - contract-discovery
+  - well-known
+  types:
+  - APIReference
+  serves:
+  - api
+  - docs
+  - spec
+  registrable_domain: vic.gov.au
+  role: docs
+  relation: own
+- host: timetableapi.ptv.vic.gov.au:443
+  found_by:
+  - spec-found
+  types: []
+  serves:
+  - spec
+  registrable_domain: gov.au:443
+  role: other
+  relation: other-domain
+- host: traffic.transport.vic.gov.au
+  found_by:
+  - probed
+  - site-links
+  - contract-discovery
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: vic.gov.au
+  role: other
+  relation: own
+- host: transport.vic.gov.au
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - well-known
+  types:
+  - Newsroom
+  serves: []
+  registrable_domain: vic.gov.au
+  role: other
+  relation: own
+- host: www.developer.vic.gov.au
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - well-known
+  types:
+  - TermsOfService
+  - Support
+  - PrivacyPolicy
+  - Login
+  serves: []
+  registrable_domain: vic.gov.au
+  role: identity
+  relation: own

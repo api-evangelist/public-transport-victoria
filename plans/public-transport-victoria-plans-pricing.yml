@@ -1,0 +1,12 @@
+name: Public Transport Victoria pricing
+generated: '2026-10-22'
+method: none
+source: https://www.vic.gov.au/public-transport-timetable-api
+audience: developer-api
+pricing_basis: none
+published: false
+delivery:
+  delivery: managed
+plan_count: 0
+plans: []
+note: PTV publishes no pricing or plan tiers for the Timetable API. Access is by emailing APIKeyRequest@ptv.vic.gov.au for an API key and user Id, no fee is mentioned on the API page or in the key-and-signature document, and the data is licensed under Creative Commons Attribution 4.0 International.

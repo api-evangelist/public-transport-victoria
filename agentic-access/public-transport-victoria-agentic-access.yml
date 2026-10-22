@@ -1,0 +1,274 @@
+generated: '2026-10-22'
+method: generated
+source: openapi/public-transport-victoria-timetable-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 26
+  by_action_class:
+    connected: 26
+  by_consequence:
+    read: 26
+  human_in_the_loop_required: 0
+operations:
+- path: /v3/departures/route_type/{route_type}/stop/{stop_id}
+  method: get
+  operationId: Departures_GetForStop
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/departures/route_type/{route_type}/stop/{stop_id}/route/{route_id}
+  method: get
+  operationId: Departures_GetForStopAndRoute
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/directions/route/{route_id}
+  method: get
+  operationId: Directions_ForRoute
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/directions/{direction_id}
+  method: get
+  operationId: Directions_ForDirection
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/directions/{direction_id}/route_type/{route_type}
+  method: get
+  operationId: Directions_ForDirectionAndType
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/disruptions
+  method: get
+  operationId: Disruptions_GetAllDisruptions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/disruptions/route/{route_id}
+  method: get
+  operationId: Disruptions_GetDisruptionsByRoute
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/disruptions/route/{route_id}/stop/{stop_id}
+  method: get
+  operationId: Disruptions_GetDisruptionsByRouteAndStop
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/disruptions/stop/{stop_id}
+  method: get
+  operationId: Disruptions_GetDisruptionsByStop
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/disruptions/{disruption_id}
+  method: get
+  operationId: Disruptions_GetDisruptionById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/disruptions/modes
+  method: get
+  operationId: Disruptions_GetDisruptionModes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/fare_estimate/min_zone/{minZone}/max_zone/{maxZone}
+  method: get
+  operationId: FareEstimate_GetFareEstimateByZone
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/outlets
+  method: get
+  operationId: Outlets_GetAllOutlets
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/outlets/location/{latitude},{longitude}
+  method: get
+  operationId: Outlets_GetOutletsByGeolocation
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/pattern/run/{run_ref}/route_type/{route_type}
+  method: get
+  operationId: Patterns_GetPatternByRun
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/routes
+  method: get
+  operationId: Routes_OneOrMoreRoutes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/routes/{route_id}
+  method: get
+  operationId: Routes_RouteFromId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/route_types
+  method: get
+  operationId: RouteTypes_GetRouteTypes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/runs/route/{route_id}
+  method: get
+  operationId: Runs_ForRoute
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/runs/route/{route_id}/route_type/{route_type}
+  method: get
+  operationId: Runs_ForRouteAndRouteType
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/runs/{run_ref}
+  method: get
+  operationId: Runs_ForRun
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/runs/{run_ref}/route_type/{route_type}
+  method: get
+  operationId: Runs_ForRunAndRouteType
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/search/{search_term}
+  method: get
+  operationId: Search_Search
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/stops/{stop_id}/route_type/{route_type}
+  method: get
+  operationId: Stops_StopDetails
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/stops/route/{route_id}/route_type/{route_type}
+  method: get
+  operationId: Stops_StopsForRoute
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/stops/location/{latitude},{longitude}
+  method: get
+  operationId: Stops_StopsByGeolocation
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none

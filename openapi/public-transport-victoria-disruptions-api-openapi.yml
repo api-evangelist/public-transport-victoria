@@ -1,0 +1,714 @@
+openapi: 3.2.0
+info:
+  title: Public Transport Victoria Disruptions API
+  version: v3
+  contact:
+    name: Public Transport Victoria
+    url: http://ptv.vic.gov.au/digital
+  license:
+    name: Creative Commons Attribution 4.0 International
+    url: https://creativecommons.org/licenses/by/4.0/
+  termsOfService: See http://ptv.vic.gov.au/ptv-timetable-api/
+  description: 'Operations tagged Disruptions across 2 of this provider''s published API definitions: public-transport-victoria-timetable-swagger-v3.json, public-transport-victoria-timetable-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://timetableapi.ptv.vic.gov.au
+- url: http://timetableapi.ptv.vic.gov.au
+tags:
+- name: Disruptions
+paths:
+  /v3/disruptions:
+    get:
+      tags:
+      - Disruptions
+      summary: View all disruptions for all route types
+      operationId: Disruptions_GetAllDisruptions
+      parameters:
+      - name: route_types
+        in: query
+        description: Filter by route_type; values returned via RouteTypes API
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int32
+            enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+      - name: disruption_modes
+        in: query
+        description: Filter by disruption_mode; values returned via v3/disruptions/modes API
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int32
+            enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 7
+            - 8
+            - 9
+            - 10
+            - 11
+            - 12
+            - 13
+            - 14
+            - 100
+      - name: disruption_status
+        in: query
+        description: Filter by status of disruption
+        required: false
+        schema:
+          type: integer
+          format: int32
+          enum:
+          - 0
+          - 1
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All disruption information for all route types.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.DisruptionsResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.DisruptionsResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+  /v3/disruptions/route/{route_id}:
+    get:
+      tags:
+      - Disruptions
+      summary: View all disruptions for a particular route
+      operationId: Disruptions_GetDisruptionsByRoute
+      parameters:
+      - name: route_id
+        in: path
+        description: Identifier of route; values returned by Routes API - v3/routes
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: disruption_status
+        in: query
+        description: Filter by status of disruption
+        required: false
+        schema:
+          type: integer
+          format: int32
+          enum:
+          - 0
+          - 1
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All disruption information (if any exists) for the specified route.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.DisruptionsResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.DisruptionsResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+  /v3/disruptions/route/{route_id}/stop/{stop_id}:
+    get:
+      tags:
+      - Disruptions
+      summary: View all disruptions for a particular route and stop
+      operationId: Disruptions_GetDisruptionsByRouteAndStop
+      parameters:
+      - name: route_id
+        in: path
+        description: Identifier of route; values returned by Routes API - v3/routes
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: stop_id
+        in: path
+        description: Identifier of stop; values returned by Stops API - v3/stops
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: disruption_status
+        in: query
+        description: Filter by status of disruption
+        required: false
+        schema:
+          type: integer
+          format: int32
+          enum:
+          - 0
+          - 1
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All disruption information (if any exists) for the specified route and stop.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.DisruptionsResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.DisruptionsResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+  /v3/disruptions/stop/{stop_id}:
+    get:
+      tags:
+      - Disruptions
+      summary: View all disruptions for a particular stop
+      operationId: Disruptions_GetDisruptionsByStop
+      parameters:
+      - name: stop_id
+        in: path
+        description: Identifier of stop; values returned by Stops API - v3/stops
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: disruption_status
+        in: query
+        description: Filter by status of disruption
+        required: false
+        schema:
+          type: integer
+          format: int32
+          enum:
+          - 0
+          - 1
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All disruption information (if any exists) for the specified stop.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.DisruptionsResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.DisruptionsResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+  /v3/disruptions/{disruption_id}:
+    get:
+      tags:
+      - Disruptions
+      summary: View a specific disruption
+      operationId: Disruptions_GetDisruptionById
+      parameters:
+      - name: disruption_id
+        in: path
+        description: Identifier of disruption; values returned by Disruptions API - /v3/disruptions OR /v3/disruptions/route/{route_id}
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Disruption information for the specified disruption ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.DisruptionResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.DisruptionResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+  /v3/disruptions/modes:
+    get:
+      tags:
+      - Disruptions
+      summary: Get all disruption modes
+      operationId: Disruptions_GetDisruptionModes
+      parameters:
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Disruption specific modes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.DisruptionModesResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.DisruptionModesResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+components:
+  schemas:
+    V3.Status:
+      type: object
+      properties:
+        version:
+          description: API Version number
+          type: string
+        health:
+          format: int32
+          description: API system health status (0=offline, 1=online)
+          enum:
+          - 0
+          - 1
+          type: integer
+    V3.Disruptions:
+      type: object
+      properties:
+        general:
+          description: Subset of disruption information applicable to multiple route_types
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.Disruption'
+        metro_train:
+          description: Subset of disruption information applicable to metropolitan train
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.Disruption'
+        metro_tram:
+          description: Subset of disruption information applicable to metropolitan tram
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.Disruption'
+        metro_bus:
+          description: Subset of disruption information applicable to metropolitan bus
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.Disruption'
+        regional_train:
+          description: Subset of disruption information applicable to V/Line train
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.Disruption'
+        regional_coach:
+          description: Subset of disruption information applicable to V/Line coach
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.Disruption'
+        regional_bus:
+          description: Subset of disruption information applicable to regional bus
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.Disruption'
+        school_bus:
+          description: Subset of disruption information applicable to school bus
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.Disruption'
+        telebus:
+          description: Subset of disruption information applicable to telebus services
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.Disruption'
+        night_bus:
+          description: Subset of disruption information applicable to night bus
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.Disruption'
+        ferry:
+          description: Subset of disruption information applicable to ferry
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.Disruption'
+        interstate_train:
+          description: Subset of disruption information applicable to interstate train
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.Disruption'
+        skybus:
+          description: Subset of disruption information applicable to skybus
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.Disruption'
+        taxi:
+          description: Subset of disruption information applicable to taxi
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.Disruption'
+    V3.ErrorResponse:
+      description: An error response
+      type: object
+      properties:
+        message:
+          description: Error message
+          type: string
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.DisruptionRoute:
+      type: object
+      properties:
+        route_type:
+          format: int32
+          description: Transport mode identifier
+          type: integer
+        route_id:
+          format: int32
+          description: Route identifier
+          type: integer
+        route_name:
+          description: Name of route
+          type: string
+        route_number:
+          description: Route number presented to public (i.e. not route_id)
+          type: string
+        route_gtfs_id:
+          description: GTFS Identifer of the route
+          type: string
+        direction:
+          $ref: '#/components/schemas/V3.DisruptionDirection'
+          description: Direction of travel relevant to a disruption (if applicable)
+    V3.DisruptionResponse:
+      type: object
+      properties:
+        disruption:
+          $ref: '#/components/schemas/V3.Disruption'
+          description: Disruption information applicable to relevant routes or stops
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.DisruptionModesResponse:
+      type: object
+      properties:
+        disruption_modes:
+          description: Transport mode identifiers
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.DisruptionMode'
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.DisruptionsResponse:
+      type: object
+      properties:
+        disruptions:
+          $ref: '#/components/schemas/V3.Disruptions'
+          description: Disruption information applicable to relevant routes or stops
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.DisruptionMode:
+      type: object
+      properties:
+        disruption_mode_name:
+          description: Name of disruption mode
+          type: string
+        disruption_mode:
+          format: int32
+          description: Disruption mode identifier
+          type: integer
+    V3.Disruption:
+      type: object
+      properties:
+        disruption_id:
+          format: int64
+          description: Disruption information identifier
+          type: integer
+        title:
+          description: Headline title summarising disruption information
+          type: string
+        url:
+          description: URL of relevant article on PTV website
+          type: string
+        description:
+          description: Description of the disruption
+          type: string
+        disruption_status:
+          description: Status of the disruption (e.g. "Planned", "Current")
+          type: string
+        disruption_type:
+          description: Type of disruption
+          type: string
+        published_on:
+          format: date-time
+          description: Date and time disruption information is published on PTV website, in ISO 8601 UTC format
+          type: string
+        last_updated:
+          format: date-time
+          description: Date and time disruption information was last updated by PTV, in ISO 8601 UTC format
+          type: string
+        from_date:
+          format: date-time
+          description: Date and time at which disruption begins, in ISO 8601 UTC format
+          type: string
+        to_date:
+          format: date-time
+          description: Date and time at which disruption ends, in ISO 8601 UTC format (returns null if unknown)
+          type: string
+        routes:
+          description: Route relevant to a disruption (if applicable)
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.DisruptionRoute'
+        stops:
+          description: Stop relevant to a disruption (if applicable)
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.DisruptionStop'
+        colour:
+          type: string
+        display_on_board:
+          type: boolean
+        display_status:
+          type: boolean
+    V3.DisruptionStop:
+      type: object
+      properties:
+        stop_id:
+          format: int32
+          type: integer
+        stop_name:
+          type: string
+    V3.DisruptionDirection:
+      type: object
+      properties:
+        route_direction_id:
+          format: int32
+          description: Route and direction of travel combination identifier
+          type: integer
+        direction_id:
+          format: int32
+          description: Direction of travel identifier
+          type: integer
+        direction_name:
+          description: Name of direction of travel
+          type: string
+        service_time:
+          description: Time of service to which disruption applies, in 24 hour clock format (HH:MM:SS) AEDT/AEST; returns null if disruption applies to multiple (or no) services
+          type: string
+x-refined-from:
+- public-transport-victoria-timetable-swagger-v3.json
+- public-transport-victoria-timetable-openapi.yml

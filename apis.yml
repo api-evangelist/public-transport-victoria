@@ -1,23 +1,246 @@
 aid: public-transport-victoria
+
 name: Public Transport Victoria
-description: 'Public Transport Victoria is a company surfaced via the API Evangelist harvest backlog (source:
-  australia-apidays-2026) and added to the network as a stub for full-pipeline profiling.'
+
+description: Public Transport Victoria (PTV) is the Victorian Government public transport authority in Australia,
+  covering metropolitan and regional train, tram and bus services. It publishes the PTV Timetable API (Version 3,
+  documented in Swagger), which provides scheduled timetable, route and stop data for all Victorian train, tram
+  and bus services including Night Network, real-time data for metropolitan services where available, disruption
+  information, stop facility information and myki ticket outlet data. Access requires a developer ID and key; the
+  dataset is listed on DataVic under the Department of Transport. ptv.vic.gov.au now redirects to transport.vic.gov.au.
+
 url: https://raw.githubusercontent.com/api-evangelist/public-transport-victoria/refs/heads/main/apis.yml
+
 x-type: company
+
 x-source: harvest:australia-apidays-2026
-x-tier: stub
-x-tier-reason: harvest
+
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-10-22 (modular-v1; was harvest)
+
 specificationVersion: '0.20'
+
 created: '2026-10-22'
+
 modified: '2026-10-22'
+
 tags:
 - Company
-apis: []
+- Public Transport
+- Government
+- Transit
+- Timetables
+- Australia
+- Open Data
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
 common:
+- type: AgenticAccess
+  url: agentic-access/public-transport-victoria-agentic-access.yml
+- type: Spectral
+  url: rules/public-transport-victoria-rules.yml
+- type: Vocabulary
+  url: vocabulary/public-transport-victoria-vocabulary.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DataModel
+  url: data-model/public-transport-victoria-data-model.yml
+- type: Conventions
+  url: conventions/public-transport-victoria-conventions.yml
+- type: Authentication
+  url: authentication/public-transport-victoria-authentication.yml
+- type: Deprecation
+  url: lifecycle/public-transport-victoria-lifecycle.yml
+- type: Lifecycle
+  url: lifecycle/public-transport-victoria-lifecycle.yml
+- type: ErrorCatalog
+  url: errors/public-transport-victoria-problem-types.yml
+- type: Conformance
+  url: conformance/public-transport-victoria-conformance.yml
+- type: Overlay
+  url: overlays/public-transport-victoria-timetable-overlay.yaml
+- type: Hosts
+  url: hosts/public-transport-victoria-hosts.yml
+- type: Vendors
+  url: vendors/public-transport-victoria-vendors.yml
+- type: TermsOfService
+  url: https://www.developer.vic.gov.au/terms
+- type: Support
+  url: https://www.developer.vic.gov.au/help
+- type: PrivacyPolicy
+  url: https://www.developer.vic.gov.au/privacy
+- type: Newsroom
+  url: https://transport.vic.gov.au/news-and-resources/news
+- type: Login
+  url: https://www.developer.vic.gov.au/sign-in
+- type: DomainSecurity
+  url: security/public-transport-victoria-domain-security.yml
 - type: Website
   url: https://ptv.vic.gov.au/
+- type: APIReference
+  url: https://timetableapi.ptv.vic.gov.au/swagger/ui/index
+- type: Documentation
+  url: https://discover.data.vic.gov.au/dataset/ptv-timetable-api
+
+apis:
+- aid: public-transport-victoria:public-transport-victoria-departures-api
+  name: Public Transport Victoria Departures API
+  description: The Departures API from Public Transport Victoria — 2 operation(s) for departures.
+  humanURL: https://timetableapi.ptv.vic.gov.au/swagger/ui/index
+  baseURL: https://timetableapi.ptv.vic.gov.au
+  tags:
+  - Departures
+  properties:
+  - type: OpenAPI
+    url: openapi/public-transport-victoria-departures-api-openapi.yml
+  - type: Documentation
+    url: https://discover.data.vic.gov.au/dataset/ptv-timetable-api
+- aid: public-transport-victoria:public-transport-victoria-directions-api
+  name: Public Transport Victoria Directions API
+  description: The Directions API from Public Transport Victoria — 3 operation(s) for directions.
+  humanURL: https://timetableapi.ptv.vic.gov.au/swagger/ui/index
+  baseURL: https://timetableapi.ptv.vic.gov.au
+  tags:
+  - Directions
+  properties:
+  - type: OpenAPI
+    url: openapi/public-transport-victoria-directions-api-openapi.yml
+  - type: Documentation
+    url: https://discover.data.vic.gov.au/dataset/ptv-timetable-api
+- aid: public-transport-victoria:public-transport-victoria-disruptions-api
+  name: Public Transport Victoria Disruptions API
+  description: The Disruptions API from Public Transport Victoria — 6 operation(s) for disruptions.
+  humanURL: https://timetableapi.ptv.vic.gov.au/swagger/ui/index
+  baseURL: https://timetableapi.ptv.vic.gov.au
+  tags:
+  - Disruptions
+  properties:
+  - type: OpenAPI
+    url: openapi/public-transport-victoria-disruptions-api-openapi.yml
+  - type: Documentation
+    url: https://discover.data.vic.gov.au/dataset/ptv-timetable-api
+- aid: public-transport-victoria:public-transport-victoria-fareestimate-api
+  name: Public Transport Victoria Fare Estimate API
+  description: The FareEstimate API from Public Transport Victoria — 1 operation(s) for fareestimate.
+  humanURL: https://timetableapi.ptv.vic.gov.au/swagger/ui/index
+  baseURL: https://timetableapi.ptv.vic.gov.au
+  tags:
+  - FareEstimate
+  properties:
+  - type: OpenAPI
+    url: openapi/public-transport-victoria-fareestimate-api-openapi.yml
+  - type: Documentation
+    url: https://discover.data.vic.gov.au/dataset/ptv-timetable-api
+- aid: public-transport-victoria:public-transport-victoria-outlets-api
+  name: Public Transport Victoria Outlets API
+  description: The Outlets API from Public Transport Victoria — 2 operation(s) for outlets.
+  humanURL: https://timetableapi.ptv.vic.gov.au/swagger/ui/index
+  baseURL: https://timetableapi.ptv.vic.gov.au
+  tags:
+  - Outlets
+  properties:
+  - type: OpenAPI
+    url: openapi/public-transport-victoria-outlets-api-openapi.yml
+  - type: Documentation
+    url: https://discover.data.vic.gov.au/dataset/ptv-timetable-api
+- aid: public-transport-victoria:public-transport-victoria-patterns-api
+  name: Public Transport Victoria Patterns API
+  description: The Patterns API from Public Transport Victoria — 1 operation(s) for patterns.
+  humanURL: https://timetableapi.ptv.vic.gov.au/swagger/ui/index
+  baseURL: https://timetableapi.ptv.vic.gov.au
+  tags:
+  - Patterns
+  properties:
+  - type: OpenAPI
+    url: openapi/public-transport-victoria-patterns-api-openapi.yml
+  - type: Documentation
+    url: https://discover.data.vic.gov.au/dataset/ptv-timetable-api
+- aid: public-transport-victoria:public-transport-victoria-routes-api
+  name: Public Transport Victoria Routes API
+  description: The Routes API from Public Transport Victoria — 2 operation(s) for routes.
+  humanURL: https://timetableapi.ptv.vic.gov.au/swagger/ui/index
+  baseURL: https://timetableapi.ptv.vic.gov.au
+  tags:
+  - Routes
+  properties:
+  - type: OpenAPI
+    url: openapi/public-transport-victoria-routes-api-openapi.yml
+  - type: Documentation
+    url: https://discover.data.vic.gov.au/dataset/ptv-timetable-api
+- aid: public-transport-victoria:public-transport-victoria-routetypes-api
+  name: Public Transport Victoria Route Types API
+  description: The RouteTypes API from Public Transport Victoria — 1 operation(s) for routetypes.
+  humanURL: https://timetableapi.ptv.vic.gov.au/swagger/ui/index
+  baseURL: https://timetableapi.ptv.vic.gov.au
+  tags:
+  - RouteTypes
+  properties:
+  - type: OpenAPI
+    url: openapi/public-transport-victoria-routetypes-api-openapi.yml
+  - type: Documentation
+    url: https://discover.data.vic.gov.au/dataset/ptv-timetable-api
+- aid: public-transport-victoria:public-transport-victoria-runs-api
+  name: Public Transport Victoria Runs API
+  description: The Runs API from Public Transport Victoria — 4 operation(s) for runs.
+  humanURL: https://timetableapi.ptv.vic.gov.au/swagger/ui/index
+  baseURL: https://timetableapi.ptv.vic.gov.au
+  tags:
+  - Runs
+  properties:
+  - type: OpenAPI
+    url: openapi/public-transport-victoria-runs-api-openapi.yml
+  - type: Documentation
+    url: https://discover.data.vic.gov.au/dataset/ptv-timetable-api
+- aid: public-transport-victoria:public-transport-victoria-search-api
+  name: Public Transport Victoria Search API
+  description: The Search API from Public Transport Victoria — 1 operation(s) for search.
+  humanURL: https://timetableapi.ptv.vic.gov.au/swagger/ui/index
+  baseURL: https://timetableapi.ptv.vic.gov.au
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/public-transport-victoria-search-api-openapi.yml
+  - type: Documentation
+    url: https://discover.data.vic.gov.au/dataset/ptv-timetable-api
+- aid: public-transport-victoria:public-transport-victoria-stops-api
+  name: Public Transport Victoria Stops API
+  description: The Stops API from Public Transport Victoria — 3 operation(s) for stops.
+  humanURL: https://timetableapi.ptv.vic.gov.au/swagger/ui/index
+  baseURL: https://timetableapi.ptv.vic.gov.au
+  tags:
+  - Stops
+  properties:
+  - type: OpenAPI
+    url: openapi/public-transport-victoria-stops-api-openapi.yml
+  - type: Documentation
+    url: https://discover.data.vic.gov.au/dataset/ptv-timetable-api
+x-coverage:
+  state: blocked
+  reason: bot-challenge
+  detail: ptv.vic.gov.au 301-redirects (via www.ptv.vic.gov.au/home) to transport.vic.gov.au, which answers HTTP
+    403 to a browser UA (preflight front_door bot-challenge). The cross-domain redirect is a rebrand/identity decision
+    left unchanged. API identity taken from the DataVic dataset listing and the documented Swagger UI host. No image
+    found.
+  evidence:
+  - url: https://ptv.vic.gov.au/
+    status: 301
+  - url: https://transport.vic.gov.au/
+    status: 403
+  - url: https://discover.data.vic.gov.au/dataset/ptv-timetable-api
+    status: 200
+  - url: https://timetableapi.ptv.vic.gov.au/swagger/ui/index
+    status: 200
+  - url: https://timetableapi.ptv.vic.gov.au/
+    status: 403
+x-enrichment:
+  date: '2026-10-22'
+  status: enriched
+  artifacts_added: 28
+  pass: modular-v1
+  engine: identity=anthropic,contract=anthropic,surfaces=anthropic,docs=anthropic,regulatory=anthropic

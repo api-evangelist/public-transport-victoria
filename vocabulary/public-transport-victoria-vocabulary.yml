@@ -1,0 +1,71 @@
+generated: '2026-10-22'
+method: derived
+generator: derive-vocabulary.py
+source: openapi/public-transport-victoria-timetable-openapi.yml
+vocabulary:
+  name: Public Transport Victoria Domain Vocabulary
+  description: 'Terms declared by Public Transport Victoria''s own API contract: its resource groups, objects and enumerations, with the contract''s
+    definitions. Derived, not authored.'
+  version: '2026-10-22'
+  terms:
+  - term: Departures
+    definition: 'Resource group in the contract; its operation GET /v3/departures/route_type/{route_type}/stop/{stop_id}: View departures for
+      all routes from a stop'
+    tags:
+    - Resource Group
+    source: openapi/public-transport-victoria-timetable-openapi.yml
+  - term: Directions
+    definition: 'Resource group in the contract; its operation GET /v3/directions/route/{route_id}: View directions that a route travels in'
+    tags:
+    - Resource Group
+    source: openapi/public-transport-victoria-timetable-openapi.yml
+  - term: Disruptions
+    definition: 'Resource group in the contract; its operation GET /v3/disruptions: View all disruptions for all route types'
+    tags:
+    - Resource Group
+    source: openapi/public-transport-victoria-timetable-openapi.yml
+  - term: FareEstimate
+    definition: 'Resource group in the contract; its operation GET /v3/fare_estimate/min_zone/{minZone}/max_zone/{maxZone}: Estimate a fare by
+      zone'
+    tags:
+    - Resource Group
+    source: openapi/public-transport-victoria-timetable-openapi.yml
+  - term: Outlets
+    definition: 'Resource group in the contract; its operation GET /v3/outlets: List all ticket outlets'
+    tags:
+    - Resource Group
+    source: openapi/public-transport-victoria-timetable-openapi.yml
+  - term: Patterns
+    definition: 'Resource group in the contract; its operation GET /v3/pattern/run/{run_ref}/route_type/{route_type}: View the stopping pattern
+      for a specific trip/service run'
+    tags:
+    - Resource Group
+    source: openapi/public-transport-victoria-timetable-openapi.yml
+  - term: Routes
+    definition: 'Resource group in the contract; its operation GET /v3/routes: View route names and numbers for all routes'
+    tags:
+    - Resource Group
+    source: openapi/public-transport-victoria-timetable-openapi.yml
+  - term: RouteTypes
+    definition: 'Resource group in the contract; its operation GET /v3/route_types: View all route types and their names'
+    tags:
+    - Resource Group
+    source: openapi/public-transport-victoria-timetable-openapi.yml
+  - term: Runs
+    definition: 'Resource group in the contract; its operation GET /v3/runs/route/{route_id}: View all trip/service runs for a specific route
+      ID'
+    tags:
+    - Resource Group
+    source: openapi/public-transport-victoria-timetable-openapi.yml
+  - term: Search
+    definition: 'Resource group in the contract; its operation GET /v3/search/{search_term}: View stops, routes and myki ticket outlets that match
+      the search term'
+    tags:
+    - Resource Group
+    source: openapi/public-transport-victoria-timetable-openapi.yml
+  - term: Stops
+    definition: 'Resource group in the contract; its operation GET /v3/stops/{stop_id}/route_type/{route_type}: View facilities at a specific
+      stop (Metro and V/Line stations only)'
+    tags:
+    - Resource Group
+    source: openapi/public-transport-victoria-timetable-openapi.yml

@@ -1,0 +1,246 @@
+openapi: 3.2.0
+info:
+  title: Public Transport Victoria Routes API
+  version: v3
+  contact:
+    name: Public Transport Victoria
+    url: http://ptv.vic.gov.au/digital
+  license:
+    name: Creative Commons Attribution 4.0 International
+    url: https://creativecommons.org/licenses/by/4.0/
+  termsOfService: See http://ptv.vic.gov.au/ptv-timetable-api/
+  description: 'Operations tagged Routes across 2 of this provider''s published API definitions: public-transport-victoria-timetable-swagger-v3.json, public-transport-victoria-timetable-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://timetableapi.ptv.vic.gov.au
+- url: http://timetableapi.ptv.vic.gov.au
+tags:
+- name: Routes
+paths:
+  /v3/routes:
+    get:
+      tags:
+      - Routes
+      summary: View route names and numbers for all routes
+      operationId: Routes_OneOrMoreRoutes
+      parameters:
+      - name: route_types
+        in: query
+        description: Filter by route_type; values returned via RouteTypes API
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int32
+            enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+      - name: route_name
+        in: query
+        description: Filter by name  of route (accepts partial route name matches)
+        required: false
+        schema:
+          type: string
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Route names and numbers for all routes of all route types.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.RouteResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.RouteResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+  /v3/routes/{route_id}:
+    get:
+      tags:
+      - Routes
+      summary: View route name and number for specific route ID
+      operationId: Routes_RouteFromId
+      parameters:
+      - name: route_id
+        in: path
+        description: Identifier of route; values returned by Departures, Directions and Disruptions APIs
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: include_geopath
+        in: query
+        description: Indicates kif geopath data will be returned (default = false)
+        required: false
+        schema:
+          type: boolean
+      - name: geopath_utc
+        in: query
+        description: Filter geopaths by date (ISO 8601 UTC format) (default = current date)
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The route name and number for the specified route ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.RouteResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.RouteResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+components:
+  schemas:
+    V3.Status:
+      type: object
+      properties:
+        version:
+          description: API Version number
+          type: string
+        health:
+          format: int32
+          description: API system health status (0=offline, 1=online)
+          enum:
+          - 0
+          - 1
+          type: integer
+    V3.RouteServiceStatus:
+      type: object
+      properties:
+        description:
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+    V3.ErrorResponse:
+      description: An error response
+      type: object
+      properties:
+        message:
+          description: Error message
+          type: string
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.RouteResponse:
+      type: object
+      properties:
+        route:
+          $ref: '#/components/schemas/V3.RouteWithStatus'
+          description: Train lines, tram routes, bus routes, regional coach routes, Night Bus routes
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.RouteWithStatus:
+      type: object
+      properties:
+        route_service_status:
+          $ref: '#/components/schemas/V3.RouteServiceStatus'
+          description: Service status for the route (indicates disruptions)
+        route_type:
+          format: int32
+          description: Transport mode identifier
+          type: integer
+        route_id:
+          format: int32
+          description: Route identifier
+          type: integer
+        route_name:
+          description: Name of route
+          type: string
+        route_number:
+          description: Route number presented to public (nb. not route_id)
+          type: string
+        route_gtfs_id:
+          description: GTFS Identifer of the route
+          type: string
+        geopath:
+          description: GeoPath of the route
+          type: array
+          items:
+            type: object
+x-refined-from:
+- public-transport-victoria-timetable-swagger-v3.json
+- public-transport-victoria-timetable-openapi.yml

@@ -1,0 +1,23 @@
+generated: '2026-10-22'
+method: none
+source:
+- https://www.vic.gov.au/public-transport-timetable-api
+- https://zapier.com/apps/public-transport-victoria/integrations
+- https://n8n.io/integrations/public-transport-victoria/
+- https://composio.dev/toolkits/public-transport-victoria
+- https://monid.ai/tools/public-transport-victoria
+checked:
+- https://zapier.com/apps/ptv/integrations
+- https://www.vic.gov.au/public-transport-timetable-api
+- https://discover.data.vic.gov.au/dataset/ptv-timetable-api
+- https://timetableapi.ptv.vic.gov.au/swagger/docs/v3
+- https://composio.dev/toolkits/public-transport-victoria
+- https://monid.ai/tools/public-transport-victoria
+- https://n8n.io/integrations/public-transport-victoria/
+- https://zapier.com/apps/public-transport-victoria/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []
+note: A government open-data API with no marketplace listings, partner page or contract operations naming other
+  services. The companion GTFS dataset on DataVic is the same publisher's data, not an integration.

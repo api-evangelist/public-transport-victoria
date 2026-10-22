@@ -1,0 +1,22 @@
+generated: '2026-10-22'
+method: searched
+source: https://www.vic.gov.au/public-transport-timetable-api
+versioning:
+  scheme: major version in path (/v2, /v3)
+  current: v3
+  versions:
+  - version: v3
+    status: current
+    text: PTV has created a new version of the PTV Timetable API – Version 3, documented in Swagger.
+  - version: 2.3.0
+    status: maintained
+    text: A fourth release of Version 2 of the PTV Timetable API – Version 2.3.0 – is now available.
+  migration_guide: https://www.vic.gov.au/sites/default/files/2025-06/PTV-Timetable-API-V2-to-V3-migration-guide.pdf
+deprecation:
+  policy: none published
+  note: No deprecation or sunset policy for Version 2 is stated; no Sunset/Deprecation headers are documented. Unused keys may be disabled after 3 months of inactivity (key-and-signature document).
+deprecated_operations: []
+data_freshness: Train timetable data is updated daily, while the remaining data is updated weekly, taking into account any planned timetable changes (for example, due to holidays or planned disruptions).
+sla: none published
+support: PTV cannot provide technical support for the API.
+status_page: null

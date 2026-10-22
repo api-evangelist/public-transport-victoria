@@ -1,0 +1,25 @@
+generated: '2026-10-22'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/public-transport-victoria-timetable-openapi.yml
+format: custom
+envelope:
+  media_type: null
+  schema: V3.ErrorResponse
+coverage:
+  operations: 26
+  statuses_declared: 2
+problems:
+- status: 400
+  title: Bad Request
+  description: Invalid Request
+  operations: 26
+  media_types: []
+  schema: V3.ErrorResponse
+- status: 403
+  title: Forbidden
+  description: Access Denied
+  operations: 26
+  media_types: []
+  schema: V3.ErrorResponse

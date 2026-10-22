@@ -1,0 +1,19 @@
+generated: '2026-10-22'
+method: none
+source: https://www.vic.gov.au/public-transport-timetable-api
+note: 'no first-party package: every candidate a model listed was unowned (harvest-packages.py --audit)'
+checked:
+- https://registry.npmjs.org/-/v1/search?text=ptv%20timetable
+- https://pypi.org/pypi/ptvapi/json
+- https://pypi.org/pypi/ptv-api/json
+packages: []
+rejected:
+- name: ptvapi
+  registry: pypi
+  reason: 'official: false as written'
+- name: '@thesammykins/ptv-mcp'
+  registry: npm
+  reason: 'official: false as written'
+- name: '@datafire/ptv_vic_gov_au'
+  registry: npm
+  reason: 'official: false as written'

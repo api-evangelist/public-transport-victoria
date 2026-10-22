@@ -1,0 +1,64 @@
+generated: '2026-10-22'
+method: searched
+probe: true
+source:
+- https://www.developer.vic.gov.au/privacy
+- https://www.developer.vic.gov.au/terms
+scope_note: >-
+  PTV's own legal pages could not be read. ptv.vic.gov.au redirects to transport.vic.gov.au, and that host
+  answered HTTP 403 (a bot challenge) for https://www.ptv.vic.gov.au/footer/legal-and-policies/privacy-policy/,
+  https://www.ptv.vic.gov.au/footer/legal-and-policies/accessibility/, https://transport.vic.gov.au/privacy
+  and https://transport.vic.gov.au/accessibility (fetched 2026-10-22). timetableapi.ptv.vic.gov.au/ also
+  answered 403. The signals below come from the Developer.Vic Portal (www.developer.vic.gov.au). The
+  Department of Government Services (DGS) runs that portal, not PTV. It lists PTV's "GTFS-R Trip Updates, Service
+  Alerts and Vehicle Positions API" in its API catalogue (https://www.developer.vic.gov.au/api-catalogue, 200),
+  so these clauses cover developers who register there for PTV realtime feeds. They do not cover PTV's
+  Timetable API at timetableapi.ptv.vic.gov.au. Each quote was copied from the page and its whitespace was
+  collapsed. The page's markup splits some words across spans (for example "Cen<span>it</span>ex"), and those
+  words are given here as the page renders them.
+signals:
+  data_subject_request:
+    url: https://www.developer.vic.gov.au/privacy
+    section: How to access or correct your Personal Information
+    note: >-
+      Says users can ask for access to, and correction of, their personal information. Requests go to DGS or its
+      Privacy Officer, and some access requests are handled under the Freedom of Information Act 1982 (Vic).
+      Correction can also be done in the user's own portal profile. The statement does not mention deletion
+      or portability, and it describes no API for these requests.
+    evidence:
+    - source: https://www.developer.vic.gov.au/privacy
+      http_status: 200
+      fetched: '2026-10-22'
+      quote: "You may request access to any Personal Information that we have collected about you. Also, you may request correction of your Personal Information if you can establish that it is not accurate, complete or up-to-date."
+    - source: https://www.developer.vic.gov.au/privacy
+      http_status: 200
+      fetched: '2026-10-22'
+      quote: "In some cases, requests for access to Personal Information will be handled in accordance with the Freedom of Information Act 1982 (Vic)."
+  subprocessors:
+    url: https://www.developer.vic.gov.au/privacy
+    section: How do we use and disclose the Personal Information collected?
+    note: >-
+      Names three third-party service providers that receive portal personal information: Deloitte Consulting
+      Pty Ltd, Axway Pty Ltd and Cenitex. They appear inside the privacy statement. There is no separate
+      subprocessor list and no date on these names.
+    evidence:
+    - source: https://www.developer.vic.gov.au/privacy
+      http_status: 200
+      fetched: '2026-10-22'
+      quote: "Personal Information that is collected by the Developer.Vic Portal will be disclosed to our contractors and other third parties that provide goods and services to us, including our website and data hosting providers and third parties that assist us with incident or problem resolution. These service providers include Deloitte Consulting Pty Ltd, Axway Pty Ltd and Cenitex."
+  data_residency:
+    url: https://www.developer.vic.gov.au/privacy
+    section: How do we use and disclose the Personal Information collected?
+    note: >-
+      This clause makes NO commitment to residency. It says service providers may hold or move personal
+      information outside Victoria, and that DGS will only take "reasonable steps" to make sure recipients follow
+      privacy law. The page names no region. Storage follows the Victorian Protective Data Security Framework.
+    evidence:
+    - source: https://www.developer.vic.gov.au/privacy
+      http_status: 200
+      fetched: '2026-10-22'
+      quote: "Some of these service providers may be located outside of Victoria, or may store or transfer your Personal Information outside of Victoria. If your Personal Information is stored or transferred outside of Victoria we will take reasonable steps to ensure that the recipients comply with all relevant privacy laws, including the PDPA."
+    - source: https://www.developer.vic.gov.au/privacy
+      http_status: 200
+      fetched: '2026-10-22'
+      quote: "We store your Personal Information in line with the information protection requirements described in the Victorian Protective Data Security Framework."

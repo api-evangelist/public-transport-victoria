@@ -1,0 +1,37 @@
+generated: '2026-10-22'
+method: searched
+source: https://timetableapi.ptv.vic.gov.au/swagger/docs/v3
+docs: https://www.vic.gov.au/public-transport-timetable-api
+read_only: true
+note: All 26 operations in the v3 contract are GET. The API has no write surface.
+auth:
+  style: query-parameter devid + HMAC-SHA1 signature
+  see: authentication/public-transport-victoria-authentication.yml
+transport:
+  base_urls: [http://timetableapi.ptv.vic.gov.au, https://timetableapi.ptv.vic.gov.au]
+  url_shape: base URL / version number / API name / query string
+versioning:
+  style: path (/v3/...)
+  see: lifecycle/public-transport-victoria-lifecycle.yml
+idempotency:
+  coverage: na
+  note: Read-only API (GET only); no replay protection is needed or documented.
+reversibility:
+  coverage: na
+  note: Read-only API; no write operations exist to reverse.
+dry_run_mode:
+  coverage: na
+pagination:
+  style: none documented
+  note: No cursor/page parameters in the contract; FAQ Q3 says the API "is not designed to download all the timetable data at once" and points to the GTFS dataset for static dumps.
+error_envelope:
+  schema: V3.ErrorResponse
+  fields: {message: Error message, status: V3.Status (API Status / Metadata)}
+  statuses: {'400': Invalid Request, '403': Access Denied}
+response_metadata:
+  field: status
+  schema: V3.Status
+rate_limit_signaling:
+  documented: false
+  see: rate-limits/public-transport-victoria-rate-limits.yml
+support: PTV cannot provide technical support for the API.

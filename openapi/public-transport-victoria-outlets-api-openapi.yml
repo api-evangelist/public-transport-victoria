@@ -1,0 +1,321 @@
+openapi: 3.2.0
+info:
+  title: Public Transport Victoria Outlets API
+  version: v3
+  contact:
+    name: Public Transport Victoria
+    url: http://ptv.vic.gov.au/digital
+  license:
+    name: Creative Commons Attribution 4.0 International
+    url: https://creativecommons.org/licenses/by/4.0/
+  termsOfService: See http://ptv.vic.gov.au/ptv-timetable-api/
+  description: 'Operations tagged Outlets across 2 of this provider''s published API definitions: public-transport-victoria-timetable-swagger-v3.json, public-transport-victoria-timetable-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://timetableapi.ptv.vic.gov.au
+- url: http://timetableapi.ptv.vic.gov.au
+tags:
+- name: Outlets
+paths:
+  /v3/outlets:
+    get:
+      tags:
+      - Outlets
+      summary: List all ticket outlets
+      operationId: Outlets_GetAllOutlets
+      parameters:
+      - name: max_results
+        in: query
+        description: Maximum number of results returned (default = 30)
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ticket outlets.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.OutletResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.OutletResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+  /v3/outlets/location/{latitude},{longitude}:
+    get:
+      tags:
+      - Outlets
+      summary: List ticket outlets near a specific location
+      operationId: Outlets_GetOutletsByGeolocation
+      parameters:
+      - name: latitude
+        in: path
+        description: Geographic coordinate of latitude
+        required: true
+        schema:
+          type: number
+          format: float
+      - name: longitude
+        in: path
+        description: Geographic coordinate of longitude
+        required: true
+        schema:
+          type: number
+          format: float
+      - name: max_distance
+        in: query
+        description: Filter by maximum distance (in metres) from location specified via latitude and longitude parameters (default = 300)
+        required: false
+        schema:
+          type: number
+          format: double
+      - name: max_results
+        in: query
+        description: Maximum number of results returned (default = 30)
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ticket outlets near the specified location.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.OutletGeolocationResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.OutletGeolocationResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+components:
+  schemas:
+    V3.Status:
+      type: object
+      properties:
+        version:
+          description: API Version number
+          type: string
+        health:
+          format: int32
+          description: API system health status (0=offline, 1=online)
+          enum:
+          - 0
+          - 1
+          type: integer
+    V3.Outlet:
+      type: object
+      properties:
+        outlet_slid_spid:
+          description: The SLID / SPID
+          type: string
+        outlet_name:
+          description: The location name of the outlet
+          type: string
+        outlet_business:
+          description: The business name of the outlet
+          type: string
+        outlet_latitude:
+          format: float
+          description: Geographic coordinate of latitude at outlet
+          type: number
+        outlet_longitude:
+          format: float
+          description: Geographic coordinate of longitude at outlet
+          type: number
+        outlet_suburb:
+          description: The city/municipality the outlet is in
+          type: string
+        outlet_postcode:
+          format: int32
+          description: The postcode for the outlet
+          type: integer
+        outlet_business_hour_mon:
+          description: The business hours on Monday
+          type: string
+        outlet_business_hour_tue:
+          description: The business hours on Tuesday
+          type: string
+        outlet_business_hour_wed:
+          description: The business hours on Wednesday
+          type: string
+        outlet_business_hour_thur:
+          description: The business hours on Thursday
+          type: string
+        outlet_business_hour_fri:
+          description: The business hours on Friday
+          type: string
+        outlet_business_hour_sat:
+          description: The business hours on Saturday
+          type: string
+        outlet_business_hour_sun:
+          description: The business hours on Sunday
+          type: string
+        outlet_notes:
+          description: Any additional notes for the outlet such as 'Buy pre-loaded myki cards only'. May be null/empty.
+          type: string
+    V3.ErrorResponse:
+      description: An error response
+      type: object
+      properties:
+        message:
+          description: Error message
+          type: string
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.OutletResponse:
+      type: object
+      properties:
+        outlets:
+          description: myki ticket outlets
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.Outlet'
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.OutletGeolocation:
+      type: object
+      properties:
+        outlet_distance:
+          format: float
+          description: Distance of outlet from input location (in metres); returns 0 if no location is input
+          type: number
+        outlet_slid_spid:
+          description: The SLID / SPID
+          type: string
+        outlet_name:
+          description: The location name of the outlet
+          type: string
+        outlet_business:
+          description: The business name of the outlet
+          type: string
+        outlet_latitude:
+          format: float
+          description: Geographic coordinate of latitude at outlet
+          type: number
+        outlet_longitude:
+          format: float
+          description: Geographic coordinate of longitude at outlet
+          type: number
+        outlet_suburb:
+          description: The city/municipality the outlet is in
+          type: string
+        outlet_postcode:
+          format: int32
+          description: The postcode for the outlet
+          type: integer
+        outlet_business_hour_mon:
+          description: The business hours on Monday
+          type: string
+        outlet_business_hour_tue:
+          description: The business hours on Tuesday
+          type: string
+        outlet_business_hour_wed:
+          description: The business hours on Wednesday
+          type: string
+        outlet_business_hour_thur:
+          description: The business hours on Thursday
+          type: string
+        outlet_business_hour_fri:
+          description: The business hours on Friday
+          type: string
+        outlet_business_hour_sat:
+          description: The business hours on Saturday
+          type: string
+        outlet_business_hour_sun:
+          description: The business hours on Sunday
+          type: string
+        outlet_notes:
+          description: Any additional notes for the outlet such as 'Buy pre-loaded myki cards only'. May be null/empty.
+          type: string
+    V3.OutletGeolocationResponse:
+      type: object
+      properties:
+        outlets:
+          description: myki ticket outlets
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.OutletGeolocation'
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+x-refined-from:
+- public-transport-victoria-timetable-swagger-v3.json
+- public-transport-victoria-timetable-openapi.yml

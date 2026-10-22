@@ -1,0 +1,324 @@
+openapi: 3.2.0
+info:
+  title: Public Transport Victoria Search API
+  version: v3
+  contact:
+    name: Public Transport Victoria
+    url: http://ptv.vic.gov.au/digital
+  license:
+    name: Creative Commons Attribution 4.0 International
+    url: https://creativecommons.org/licenses/by/4.0/
+  termsOfService: See http://ptv.vic.gov.au/ptv-timetable-api/
+  description: 'Operations tagged Search across 2 of this provider''s published API definitions: public-transport-victoria-timetable-swagger-v3.json, public-transport-victoria-timetable-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://timetableapi.ptv.vic.gov.au
+- url: http://timetableapi.ptv.vic.gov.au
+tags:
+- name: Search
+paths:
+  /v3/search/{search_term}:
+    get:
+      tags:
+      - Search
+      summary: View stops, routes and myki ticket outlets that match the search term
+      operationId: Search_Search
+      parameters:
+      - name: search_term
+        in: path
+        description: 'Search text (note: if search text is numeric and/or less than 3 characters, the API will only return routes)'
+        required: true
+        schema:
+          type: string
+      - name: route_types
+        in: query
+        description: 'Filter by route_type; values returned via RouteTypes API (note: stops and routes are ordered by route_types specified)'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int32
+            enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+      - name: latitude
+        in: query
+        description: Filter by geographic coordinate of latitude
+        required: false
+        schema:
+          type: number
+          format: float
+      - name: longitude
+        in: query
+        description: Filter by geographic coordinate of longitude
+        required: false
+        schema:
+          type: number
+          format: float
+      - name: max_distance
+        in: query
+        description: Filter by maximum distance (in metres) from location specified via latitude and longitude parameters
+        required: false
+        schema:
+          type: number
+          format: float
+      - name: include_addresses
+        in: query
+        description: Placeholder for future development; currently unavailable
+        required: false
+        schema:
+          type: boolean
+      - name: include_outlets
+        in: query
+        description: Indicates if outlets will be returned in response (default = true)
+        required: false
+        schema:
+          type: boolean
+      - name: match_stop_by_suburb
+        in: query
+        description: Indicates whether to find stops by suburbs in the search term (default = true)
+        required: false
+        schema:
+          type: boolean
+      - name: match_route_by_suburb
+        in: query
+        description: Indicates whether to find routes by suburbs in the search term (default = true)
+        required: false
+        schema:
+          type: boolean
+      - name: match_stop_by_gtfs_stop_id
+        in: query
+        description: Indicates whether to search for stops according to a metlink stop ID (default = false)
+        required: false
+        schema:
+          type: boolean
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'Stops, routes and myki ticket outlets that contain the search term (note: stops and routes are ordered by route_type by default).'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.SearchResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.SearchResult'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+components:
+  schemas:
+    V3.Status:
+      type: object
+      properties:
+        version:
+          description: API Version number
+          type: string
+        health:
+          format: int32
+          description: API system health status (0=offline, 1=online)
+          enum:
+          - 0
+          - 1
+          type: integer
+    V3.RouteServiceStatus:
+      type: object
+      properties:
+        description:
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+    V3.SearchResult:
+      type: object
+      properties:
+        stops:
+          description: Train stations, tram stops, bus stops, regional coach stops or Night Bus stops
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.ResultStop'
+        routes:
+          description: Train lines, tram routes, bus routes, regional coach routes, Night Bus routes
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.ResultRoute'
+        outlets:
+          description: myki ticket outlets
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.ResultOutlet'
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.ResultOutlet:
+      type: object
+      properties:
+        outlet_distance:
+          format: float
+          description: Distance of outlet from input location (in metres); returns 0 if no location is input
+          type: number
+        outlet_slid_spid:
+          description: The SLID / SPID
+          type: string
+        outlet_name:
+          description: The location name of the outlet
+          type: string
+        outlet_business:
+          description: The business name of the outlet
+          type: string
+        outlet_latitude:
+          format: float
+          description: Geographic coordinate of latitude at outlet
+          type: number
+        outlet_longitude:
+          format: float
+          description: Geographic coordinate of longitude at outlet
+          type: number
+        outlet_suburb:
+          description: The city/municipality the outlet is in
+          type: string
+        outlet_postcode:
+          format: int32
+          description: The postcode for the outlet
+          type: integer
+        outlet_business_hour_mon:
+          description: The business hours on Monday
+          type: string
+        outlet_business_hour_tue:
+          description: The business hours on Tuesday
+          type: string
+        outlet_business_hour_wed:
+          description: The business hours on Wednesday
+          type: string
+        outlet_business_hour_thur:
+          description: The business hours on Thursday
+          type: string
+        outlet_business_hour_fri:
+          description: The business hours on Friday
+          type: string
+        outlet_business_hour_sat:
+          description: The business hours on Saturday
+          type: string
+        outlet_business_hour_sun:
+          description: The business hours on Sunday
+          type: string
+        outlet_notes:
+          description: Any additional notes for the outlet such as 'Buy pre-loaded myki cards only'. May be null/empty.
+          type: string
+    V3.ErrorResponse:
+      description: An error response
+      type: object
+      properties:
+        message:
+          description: Error message
+          type: string
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.ResultStop:
+      type: object
+      properties:
+        stop_distance:
+          format: float
+          description: Distance of stop from input location (in metres); returns 0 if no location is input
+          type: number
+        stop_suburb:
+          description: suburb of stop
+          type: string
+        route_type:
+          format: int32
+          description: Transport mode identifier
+          type: integer
+        routes:
+          description: List of routes travelling through the stop
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.ResultRoute'
+        stop_latitude:
+          format: float
+          description: Geographic coordinate of latitude at stop
+          type: number
+        stop_longitude:
+          format: float
+          description: Geographic coordinate of longitude at stop
+          type: number
+        stop_sequence:
+          format: int32
+          description: Sequence of the stop on the route/run; return 0 when route_id or run_id not specified. Order ascendingly by this field (when non zero) to get physical order (earliest first) of stops on the route_id/run_id.
+          type: integer
+        stop_id:
+          format: int32
+          description: Stop identifier
+          type: integer
+        stop_name:
+          description: Name of stop
+          type: string
+        stop_landmark:
+          description: Landmark in proximity of stop
+          type: string
+    V3.ResultRoute:
+      type: object
+      properties:
+        route_name:
+          description: Name of route
+          type: string
+        route_number:
+          description: Route number presented to public (nb. not route_id)
+          type: string
+        route_type:
+          format: int32
+          description: Transport mode identifier
+          type: integer
+        route_id:
+          format: int32
+          description: Route identifier
+          type: integer
+        route_gtfs_id:
+          description: GTFS Identifer of the route
+          type: string
+        route_service_status:
+          $ref: '#/components/schemas/V3.RouteServiceStatus'
+          description: Service status for the route (indicates disruptions)
+x-refined-from:
+- public-transport-victoria-timetable-swagger-v3.json
+- public-transport-victoria-timetable-openapi.yml

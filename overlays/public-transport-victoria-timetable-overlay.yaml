@@ -1,0 +1,152 @@
+overlay: 1.0.0
+info:
+  title: Public Transport Victoria Timetable API agent overlay
+  version: 1.0.0
+extends: ../openapi/_original/public-transport-victoria-timetable-openapi.yml
+generated: '2026-10-22'
+method: generated
+source: openapi/public-transport-victoria-timetable-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-provider: Public Transport Victoria
+    x-apis-json: ../apis.yml
+- target: $
+  update:
+    x-agent-auth:
+      type: query-signature
+      params:
+      - devid
+      - signature
+      note: Every operation takes devid ("Your developer id") and signature ("Authentication signature for request") query parameters; how to
+        register for a key and calculate the signature is documented at http://ptv.vic.gov.au/ptv-timetable-api/ (per the spec info.description).
+- target: $.paths['/v3/departures/route_type/{route_type}/stop/{stop_id}'].get
+  update:
+    x-mcp-tool: get_for_stop
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/departures/route_type/{route_type}/stop/{stop_id}/route/{route_id}'].get
+  update:
+    x-mcp-tool: get_for_stop_and_route
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/directions/route/{route_id}'].get
+  update:
+    x-mcp-tool: for_route
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/directions/{direction_id}'].get
+  update:
+    x-mcp-tool: for_direction
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/directions/{direction_id}/route_type/{route_type}'].get
+  update:
+    x-mcp-tool: for_direction_and_type
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/disruptions'].get
+  update:
+    x-mcp-tool: get_all_disruptions
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/disruptions/route/{route_id}'].get
+  update:
+    x-mcp-tool: get_disruptions_by_route
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/disruptions/route/{route_id}/stop/{stop_id}'].get
+  update:
+    x-mcp-tool: get_disruptions_by_route_and_stop
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/disruptions/stop/{stop_id}'].get
+  update:
+    x-mcp-tool: get_disruptions_by_stop
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/disruptions/{disruption_id}'].get
+  update:
+    x-mcp-tool: get_disruption_by_id
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/disruptions/modes'].get
+  update:
+    x-mcp-tool: get_disruption_modes
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/fare_estimate/min_zone/{minZone}/max_zone/{maxZone}'].get
+  update:
+    x-mcp-tool: get_fare_estimate_by_zone
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/outlets'].get
+  update:
+    x-mcp-tool: get_all_outlets
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/outlets/location/{latitude},{longitude}'].get
+  update:
+    x-mcp-tool: get_outlets_by_geolocation
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/pattern/run/{run_ref}/route_type/{route_type}'].get
+  update:
+    x-mcp-tool: get_pattern_by_run
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/routes'].get
+  update:
+    x-mcp-tool: one_or_more_routes
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/routes/{route_id}'].get
+  update:
+    x-mcp-tool: route_from_id
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/route_types'].get
+  update:
+    x-mcp-tool: get_route_types
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/runs/route/{route_id}'].get
+  update:
+    x-mcp-tool: for_route
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/runs/route/{route_id}/route_type/{route_type}'].get
+  update:
+    x-mcp-tool: for_route_and_route_type
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/runs/{run_ref}'].get
+  update:
+    x-mcp-tool: for_run
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/runs/{run_ref}/route_type/{route_type}'].get
+  update:
+    x-mcp-tool: for_run_and_route_type
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/search/{search_term}'].get
+  update:
+    x-mcp-tool: search
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/stops/{stop_id}/route_type/{route_type}'].get
+  update:
+    x-mcp-tool: stop_details
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/stops/route/{route_id}/route_type/{route_type}'].get
+  update:
+    x-mcp-tool: stops_for_route
+    x-agent-safe: true
+    x-idempotent: true
+- target: $.paths['/v3/stops/location/{latitude},{longitude}'].get
+  update:
+    x-mcp-tool: stops_by_geolocation
+    x-agent-safe: true
+    x-idempotent: true

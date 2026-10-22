@@ -1,0 +1,123 @@
+openapi: 3.2.0
+info:
+  title: Public Transport Victoria Route Types API
+  version: v3
+  contact:
+    name: Public Transport Victoria
+    url: http://ptv.vic.gov.au/digital
+  license:
+    name: Creative Commons Attribution 4.0 International
+    url: https://creativecommons.org/licenses/by/4.0/
+  termsOfService: See http://ptv.vic.gov.au/ptv-timetable-api/
+  description: 'Operations tagged RouteTypes across 2 of this provider''s published API definitions: public-transport-victoria-timetable-swagger-v3.json, public-transport-victoria-timetable-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://timetableapi.ptv.vic.gov.au
+- url: http://timetableapi.ptv.vic.gov.au
+tags:
+- name: RouteTypes
+paths:
+  /v3/route_types:
+    get:
+      tags:
+      - RouteTypes
+      summary: View all route types and their names
+      operationId: RouteTypes_GetRouteTypes
+      parameters:
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All route types (i.e. identifiers of transport modes) and their names.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.RouteTypesResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.RouteTypesResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+components:
+  schemas:
+    V3.Status:
+      type: object
+      properties:
+        version:
+          description: API Version number
+          type: string
+        health:
+          format: int32
+          description: API system health status (0=offline, 1=online)
+          enum:
+          - 0
+          - 1
+          type: integer
+    V3.ErrorResponse:
+      description: An error response
+      type: object
+      properties:
+        message:
+          description: Error message
+          type: string
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.RouteType:
+      type: object
+      properties:
+        route_type_name:
+          description: Name of transport mode
+          type: string
+        route_type:
+          format: int32
+          description: Transport mode identifier
+          type: integer
+    V3.RouteTypesResponse:
+      type: object
+      properties:
+        route_types:
+          description: Transport mode identifiers
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.RouteType'
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+x-refined-from:
+- public-transport-victoria-timetable-swagger-v3.json
+- public-transport-victoria-timetable-openapi.yml

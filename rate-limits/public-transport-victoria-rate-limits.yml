@@ -1,0 +1,12 @@
+name: Public Transport Victoria rate limits
+generated: '2026-10-22'
+method: none
+source: https://www.vic.gov.au/public-transport-timetable-api
+checked:
+- https://www.vic.gov.au/public-transport-timetable-api
+- https://www.vic.gov.au/sites/default/files/2025-06/PTV-Timetable-API-key-and-signature-document.rtf
+- https://timetableapi.ptv.vic.gov.au/swagger/docs/v3
+- https://discover.data.vic.gov.au/dataset/ptv-timetable-api
+limit_count: 0
+limits: []
+note: No numeric rate limits, quota or rate-limit headers are published in the Swagger, the API page/FAQ or the key-and-signature document. The only usage rule found is that keys unused for over 3 months may be disabled.

@@ -1,0 +1,773 @@
+openapi: 3.2.0
+info:
+  title: Public Transport Victoria Departures API
+  version: v3
+  contact:
+    name: Public Transport Victoria
+    url: http://ptv.vic.gov.au/digital
+  license:
+    name: Creative Commons Attribution 4.0 International
+    url: https://creativecommons.org/licenses/by/4.0/
+  termsOfService: See http://ptv.vic.gov.au/ptv-timetable-api/
+  description: 'Operations tagged Departures across 2 of this provider''s published API definitions: public-transport-victoria-timetable-swagger-v3.json, public-transport-victoria-timetable-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://timetableapi.ptv.vic.gov.au
+- url: http://timetableapi.ptv.vic.gov.au
+tags:
+- name: Departures
+paths:
+  /v3/departures/route_type/{route_type}/stop/{stop_id}:
+    get:
+      tags:
+      - Departures
+      summary: View departures for all routes from a stop
+      operationId: Departures_GetForStop
+      parameters:
+      - name: route_type
+        in: path
+        description: Number identifying transport mode; values returned via RouteTypes API
+        required: true
+        schema:
+          type: integer
+          format: int32
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+      - name: stop_id
+        in: path
+        description: Identifier of stop; values returned by Stops API
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: platform_numbers
+        in: query
+        description: Filter by platform number at stop
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int32
+      - name: direction_id
+        in: query
+        description: Filter by identifier of direction of travel; values returned by Directions API - /v3/directions/route/{route_id}
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: gtfs
+        in: query
+        description: Indicates that stop_id parameter will accept "GTFS stop_id" data
+        required: false
+        schema:
+          type: boolean
+      - name: date_utc
+        in: query
+        description: Filter by the date and time of the request (ISO 8601 UTC format) (default = current date and time)
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: max_results
+        in: query
+        description: Maximum number of results returned
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: include_cancelled
+        in: query
+        description: Indicates if cancelled services (if they exist) are returned (default = false) - metropolitan train only
+        required: false
+        schema:
+          type: boolean
+      - name: look_backwards
+        in: query
+        description: Indicates if filtering runs (and their departures) to those that arrive at destination before date_utc (default = false). Requires max_results &gt; 0.
+        required: false
+        schema:
+          type: boolean
+      - name: expand
+        in: query
+        description: 'List of objects to be returned in full (i.e. expanded) - options include: All, Stop, Route, Run, Direction, Disruption, VehiclePosition, VehicleDescriptor or None.
+
+          Run must be expanded to receive VehiclePosition and VehicleDescriptor information.'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int32
+            enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            - 2147483647
+      - name: include_geopath
+        in: query
+        description: Indicates if the route geopath should be returned
+        required: false
+        schema:
+          type: boolean
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Service departures from the specified stop for all routes of the specified route type; departures are timetabled and real-time (if applicable).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.DeparturesResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.DeparturesResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+  /v3/departures/route_type/{route_type}/stop/{stop_id}/route/{route_id}:
+    get:
+      tags:
+      - Departures
+      summary: View departures for a specific route from a stop
+      operationId: Departures_GetForStopAndRoute
+      parameters:
+      - name: route_type
+        in: path
+        description: Number identifying transport mode; values returned via RouteTypes API
+        required: true
+        schema:
+          type: integer
+          format: int32
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+      - name: stop_id
+        in: path
+        description: Identifier of stop; values returned by Stops API
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: route_id
+        in: path
+        description: Identifier of route; values returned by Routes API - v3/routes
+        required: true
+        schema:
+          type: string
+      - name: direction_id
+        in: query
+        description: Filter by identifier of direction of travel; values returned by Directions API - /v3/directions/route/{route_id}
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: gtfs
+        in: query
+        description: Indicates that stop_id parameter will accept "GTFS stop_id" data
+        required: false
+        schema:
+          type: boolean
+      - name: date_utc
+        in: query
+        description: Filter by the date and time of the request (ISO 8601 UTC format) (default = current date and time)
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: max_results
+        in: query
+        description: Maximum number of results returned
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: include_cancelled
+        in: query
+        description: Indicates if cancelled services (if they exist) are returned (default = false) - metropolitan train only
+        required: false
+        schema:
+          type: boolean
+      - name: look_backwards
+        in: query
+        description: Indicates if filtering runs (and their departures) to those that arrive at destination before date_utc (default = false). Requires max_results &gt; 0.
+        required: false
+        schema:
+          type: boolean
+      - name: expand
+        in: query
+        description: 'List of objects to be returned in full (i.e. expanded) - options include: All, Stop, Route, Run, Direction, Disruption, VehiclePosition, VehicleDescriptor or None.
+
+          Run must be expanded to receive VehiclePosition and VehicleDescriptor information.'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int32
+            enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            - 2147483647
+      - name: include_geopath
+        in: query
+        description: Indicates if the route geopath should be returned
+        required: false
+        schema:
+          type: boolean
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Service departures from the specified stop for the specified route (and route type); departures are timetabled and real-time (if applicable).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.DeparturesResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.DeparturesResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+components:
+  schemas:
+    V3.Status:
+      type: object
+      properties:
+        version:
+          description: API Version number
+          type: string
+        health:
+          format: int32
+          description: API system health status (0=offline, 1=online)
+          enum:
+          - 0
+          - 1
+          type: integer
+    V3.Run:
+      type: object
+      properties:
+        run_id:
+          format: int32
+          description: Numeric trip/service run identifier. Defaults to -1 when run identifier is Alphanumeric
+          type: integer
+          readOnly: true
+        run_ref:
+          description: Alphanumeric trip/service run identifier
+          type: string
+        route_id:
+          format: int32
+          description: Route identifier
+          type: integer
+        route_type:
+          format: int32
+          description: Transport mode identifier
+          type: integer
+        final_stop_id:
+          format: int32
+          description: stop_id of final stop of run
+          type: integer
+        destination_name:
+          description: Name of destination of run
+          type: string
+        status:
+          description: Status of metropolitan train run; returns "scheduled" for other modes
+          type: string
+        direction_id:
+          format: int32
+          description: Direction of travel identifier
+          type: integer
+        run_sequence:
+          format: int32
+          description: Chronological sequence of the trip/service run on the route in direction. Order ascendingly by this field to get chronological order (earliest first) of runs with the same route_id and direction_id.
+          type: integer
+        express_stop_count:
+          format: int32
+          description: The number of remaining skipped/express stations for the run/service from a stop
+          type: integer
+        vehicle_position:
+          $ref: '#/components/schemas/V3.VehiclePosition'
+          description: Position of the trip/service run. Available for some Bus, Nightrider and Train runs. May be null.
+        vehicle_descriptor:
+          $ref: '#/components/schemas/V3.VehicleDescriptor'
+          description: Descriptor of the trip/service run. Only available for some runs. May be null.
+        geopath:
+          description: Geopath of the route
+          type: array
+          items:
+            type: object
+        interchange:
+          $ref: '#/components/schemas/V3.Interchange'
+          description: Connection link between two runs
+        run_note:
+          description: Additional descriptive text associated with the run
+          type: string
+        externalService:
+          format: int32
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          type: integer
+    V3.Departure:
+      type: object
+      properties:
+        stop_id:
+          format: int32
+          description: Stop identifier
+          type: integer
+        route_id:
+          format: int32
+          description: Route identifier
+          type: integer
+        run_id:
+          format: int32
+          description: Numeric trip/service run identifier. Defaults to -1 when run identifier is Alphanumeric
+          type: integer
+          readOnly: true
+        run_ref:
+          description: Alphanumeric trip/service run identifier
+          type: string
+        direction_id:
+          format: int32
+          description: Direction of travel identifier
+          type: integer
+        disruption_ids:
+          description: Disruption information identifier(s)
+          type: array
+          items:
+            format: int64
+            type: integer
+        scheduled_departure_utc:
+          format: date-time
+          description: Scheduled (i.e. timetabled) departure time and date in ISO 8601 UTC format
+          type: string
+        estimated_departure_utc:
+          format: date-time
+          description: Real-time estimate of departure time and date in ISO 8601 UTC format
+          type: string
+        at_platform:
+          description: Indicates if the metropolitan train service is at the platform at the time of query; returns false for other modes
+          type: boolean
+        platform_number:
+          description: Platform number at stop (metropolitan train only; returns null for other modes)
+          type: string
+        flags:
+          description: Flag indicating special condition for run (e.g. RR Reservations Required, GC Guaranteed Connection, DOO Drop Off Only, PUO Pick Up Only, MO Mondays only, TU Tuesdays only, WE Wednesdays only, TH Thursdays only, FR Fridays only, SS School days only; ignore E flag)
+          type: string
+        departure_sequence:
+          format: int32
+          description: Chronological sequence for the departures in a run. Order ascendingly by this field to get chronological order (earliest first) of departures with the same run_ref. NOTE, this field is not always N+1 or N-1 of the previous or following departure. e.g 100, 200, 250, 300 instead of 1, 2, 3, 4
+          type: integer
+        departure_note:
+          description: Additional descriptive text associated with the departure
+          type: string
+    V3.Direction:
+      type: object
+      properties:
+        direction_id:
+          format: int32
+          description: Direction of travel identifier
+          type: integer
+        direction_name:
+          description: Name of direction of travel
+          type: string
+        route_id:
+          format: int32
+          description: Route identifier
+          type: integer
+        route_type:
+          format: int32
+          description: Transport mode identifier
+          type: integer
+    V3.DeparturesResponse:
+      type: object
+      properties:
+        departures:
+          description: Timetabled and real-time service departures
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.Departure'
+        stops:
+          description: A train station, tram stop, bus stop, regional coach stop or Night Bus stop
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/V3.StopModel'
+        routes:
+          description: Train lines, tram routes, bus routes, regional coach routes, Night Bus routes
+          type: object
+          additionalProperties:
+            type: object
+        runs:
+          description: Individual trips/services of a route
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/V3.Run'
+        directions:
+          description: Directions of travel of route
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/V3.Direction'
+        disruptions:
+          description: Disruption information applicable to relevant routes or stops
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/V3.Disruption'
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.VehicleDescriptor:
+      type: object
+      properties:
+        operator:
+          description: 'Operator name of the vehicle such as "Metro Trains Melbourne", "Yarra Trams", "Ventura Bus Line", "CDC" or "Sita Bus Lines" . May be null/empty.
+
+            Only available for train, tram, v/line and some bus runs.'
+          type: string
+        id:
+          description: Operator identifier of the vehicle such as "26094". May be null/empty. Only available for some tram and bus runs.
+          type: string
+        low_floor:
+          description: Indicator if vehicle has a low floor. May be null. Only available for some tram runs.
+          type: boolean
+        air_conditioned:
+          description: Indicator if vehicle is air conditioned. May be null. Only available for some tram runs.
+          type: boolean
+        description:
+          description: 'Vehicle description such as "6 Car Comeng", "6 Car Xtrapolis", "3 Car Comeng", "6 Car Siemens", "3 Car Siemens". May be null/empty.
+
+            Only available for some metropolitan train runs.'
+          type: string
+        supplier:
+          description: Supplier of vehicle descriptor data.
+          type: string
+        length:
+          description: The length of the vehicle. Applies to CIS - Metro Trains
+          type: string
+    V3.DisruptionRoute:
+      type: object
+      properties:
+        route_type:
+          format: int32
+          description: Transport mode identifier
+          type: integer
+        route_id:
+          format: int32
+          description: Route identifier
+          type: integer
+        route_name:
+          description: Name of route
+          type: string
+        route_number:
+          description: Route number presented to public (i.e. not route_id)
+          type: string
+        route_gtfs_id:
+          description: GTFS Identifer of the route
+          type: string
+        direction:
+          $ref: '#/components/schemas/V3.DisruptionDirection'
+          description: Direction of travel relevant to a disruption (if applicable)
+    V3.ErrorResponse:
+      description: An error response
+      type: object
+      properties:
+        message:
+          description: Error message
+          type: string
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.Interchange:
+      description: When two runs connect
+      type: object
+      properties:
+        feeder:
+          $ref: '#/components/schemas/V3.InterchangeRun'
+          description: The run that a vehicle was previously on
+        distributor:
+          $ref: '#/components/schemas/V3.InterchangeRun'
+          description: The run that a vehicle will become
+    V3.InterchangeRun:
+      description: Feeder / Distributor details
+      type: object
+      properties:
+        run_ref:
+          description: Run Identifier
+          type: string
+        route_id:
+          format: int32
+          description: Route identifier
+          type: integer
+        stop_id:
+          format: int32
+          description: Stop identifier
+          type: integer
+        advertised:
+          description: Indicates whether the interchange information is shown to end users
+          type: boolean
+        direction_id:
+          format: int32
+          description: Indicates whether the direction for this run
+          type: integer
+        destination_name:
+          description: Indicates the destination name
+          type: string
+    V3.VehiclePosition:
+      type: object
+      properties:
+        latitude:
+          format: double
+          description: 'Geographic coordinate of latitude of the vehicle when known. May be null.
+
+            Only available for some bus runs.'
+          type: number
+        longitude:
+          format: double
+          description: "Geographic coordinate of longitude of the vehicle when known. \nOnly available for some bus runs."
+          type: number
+        easting:
+          format: double
+          description: CIS - Metro Train Vehicle Location Easting coordinate
+          type: number
+        northing:
+          format: double
+          description: CIS - Metro Train Vehicle Location Northing coordinate
+          type: number
+        direction:
+          description: CIS - Metro Train Vehicle Location Direction
+          type: string
+        bearing:
+          format: double
+          description: 'Compass bearing of the vehicle when known, clockwise from True North, i.e., 0 is North and 90 is East. May be null.
+
+            Only available for some bus runs.'
+          type: number
+        supplier:
+          description: Supplier of vehicle position data.
+          type: string
+        datetime_utc:
+          format: date-time
+          description: Date and time that the vehicle position data was supplied.
+          type: string
+        expiry_time:
+          format: date-time
+          description: CIS - Metro Train Vehicle Location data expiry time
+          type: string
+    V3.Disruption:
+      type: object
+      properties:
+        disruption_id:
+          format: int64
+          description: Disruption information identifier
+          type: integer
+        title:
+          description: Headline title summarising disruption information
+          type: string
+        url:
+          description: URL of relevant article on PTV website
+          type: string
+        description:
+          description: Description of the disruption
+          type: string
+        disruption_status:
+          description: Status of the disruption (e.g. "Planned", "Current")
+          type: string
+        disruption_type:
+          description: Type of disruption
+          type: string
+        published_on:
+          format: date-time
+          description: Date and time disruption information is published on PTV website, in ISO 8601 UTC format
+          type: string
+        last_updated:
+          format: date-time
+          description: Date and time disruption information was last updated by PTV, in ISO 8601 UTC format
+          type: string
+        from_date:
+          format: date-time
+          description: Date and time at which disruption begins, in ISO 8601 UTC format
+          type: string
+        to_date:
+          format: date-time
+          description: Date and time at which disruption ends, in ISO 8601 UTC format (returns null if unknown)
+          type: string
+        routes:
+          description: Route relevant to a disruption (if applicable)
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.DisruptionRoute'
+        stops:
+          description: Stop relevant to a disruption (if applicable)
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.DisruptionStop'
+        colour:
+          type: string
+        display_on_board:
+          type: boolean
+        display_status:
+          type: boolean
+    V3.DisruptionStop:
+      type: object
+      properties:
+        stop_id:
+          format: int32
+          type: integer
+        stop_name:
+          type: string
+    V3.StopModel:
+      type: object
+      properties:
+        stop_distance:
+          format: float
+          description: Distance of stop from input location (in metres); returns 0 if no location is input
+          type: number
+        stop_suburb:
+          description: suburb of stop
+          type: string
+        stop_name:
+          description: Name of stop
+          type: string
+        stop_id:
+          format: int32
+          description: Stop identifier
+          type: integer
+        route_type:
+          format: int32
+          description: Transport mode identifier
+          type: integer
+        stop_latitude:
+          format: float
+          description: Geographic coordinate of latitude at stop
+          type: number
+        stop_longitude:
+          format: float
+          description: Geographic coordinate of longitude at stop
+          type: number
+        stop_landmark:
+          description: Landmark in proximity of stop
+          type: string
+        stop_sequence:
+          format: int32
+          description: Sequence of the stop on the route/run; return 0 when route_id or run_id not specified. Order ascendingly by this field (when non zero) to get physical order (earliest first) of stops on the route_id/run_id.
+          type: integer
+    V3.DisruptionDirection:
+      type: object
+      properties:
+        route_direction_id:
+          format: int32
+          description: Route and direction of travel combination identifier
+          type: integer
+        direction_id:
+          format: int32
+          description: Direction of travel identifier
+          type: integer
+        direction_name:
+          description: Name of direction of travel
+          type: string
+        service_time:
+          description: Time of service to which disruption applies, in 24 hour clock format (HH:MM:SS) AEDT/AEST; returns null if disruption applies to multiple (or no) services
+          type: string
+x-refined-from:
+- public-transport-victoria-timetable-swagger-v3.json
+- public-transport-victoria-timetable-openapi.yml

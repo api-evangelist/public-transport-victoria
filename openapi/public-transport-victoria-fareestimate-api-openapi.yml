@@ -1,0 +1,232 @@
+openapi: 3.2.0
+info:
+  title: Public Transport Victoria Fare Estimate API
+  version: v3
+  contact:
+    name: Public Transport Victoria
+    url: http://ptv.vic.gov.au/digital
+  license:
+    name: Creative Commons Attribution 4.0 International
+    url: https://creativecommons.org/licenses/by/4.0/
+  termsOfService: See http://ptv.vic.gov.au/ptv-timetable-api/
+  description: 'Operations tagged FareEstimate across 2 of this provider''s published API definitions: public-transport-victoria-timetable-swagger-v3.json, public-transport-victoria-timetable-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://timetableapi.ptv.vic.gov.au
+- url: http://timetableapi.ptv.vic.gov.au
+tags:
+- name: FareEstimate
+paths:
+  /v3/fare_estimate/min_zone/{minZone}/max_zone/{maxZone}:
+    get:
+      tags:
+      - FareEstimate
+      summary: Estimate a fare by zone
+      operationId: FareEstimate_GetFareEstimateByZone
+      parameters:
+      - name: minZone
+        in: path
+        description: Minimum Zone travelled through ie. 1
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: maxZone
+        in: path
+        description: Maximum Zone travelled through id. 6
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: journey_touch_on_utc
+        in: query
+        description: JourneyTouchOnUtc in format yyyy-M-d h:m (e.g 2016-5-31 16:53).
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: journey_touch_off_utc
+        in: query
+        description: JourneyTouchOffUtc in format yyyy-M-d h:m (e.g 2016-5-31 16:53).
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: is_journey_in_free_tram_zone
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: is_journey_in_overlap_zone
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: travelled_route_types
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int32
+            enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Resultant set fare estimates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.FareEstimateResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.FareEstimateResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+components:
+  schemas:
+    V3.Status:
+      type: object
+      properties:
+        version:
+          description: API Version number
+          type: string
+        health:
+          format: int32
+          description: API system health status (0=offline, 1=online)
+          enum:
+          - 0
+          - 1
+          type: integer
+    V3.FareEstimateResultStatus:
+      type: object
+      properties:
+        StatusCode:
+          format: int32
+          type: integer
+        Message:
+          type: string
+    V3.PassengerFare:
+      type: object
+      properties:
+        PassengerType:
+          type: string
+        Fare2HourPeak:
+          format: double
+          type: number
+        Fare2HourOffPeak:
+          format: double
+          type: number
+        FareDailyPeak:
+          format: double
+          type: number
+        FareDailyOffPeak:
+          format: double
+          type: number
+        Pass7Days:
+          format: double
+          type: number
+        Pass28To69DayPerDay:
+          format: double
+          type: number
+        Pass70PlusDayPerDay:
+          format: double
+          type: number
+        WeekendCap:
+          format: double
+          type: number
+        HolidayCap:
+          format: double
+          type: number
+    V3.FareEstimateResult:
+      type: object
+      properties:
+        IsEarlyBird:
+          type: boolean
+        IsJourneyInFreeTramZone:
+          type: boolean
+        IsThisWeekendJourney:
+          type: boolean
+        ZoneInfo:
+          $ref: '#/components/schemas/V3.ZoneInfo'
+        PassengerFares:
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.PassengerFare'
+    V3.ErrorResponse:
+      description: An error response
+      type: object
+      properties:
+        message:
+          description: Error message
+          type: string
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.ZoneInfo:
+      type: object
+      properties:
+        MinZone:
+          format: int32
+          type: integer
+        MaxZone:
+          format: int32
+          type: integer
+        UniqueZones:
+          type: array
+          items:
+            format: int32
+            type: integer
+    V3.FareEstimateResponse:
+      type: object
+      properties:
+        FareEstimateResultStatus:
+          $ref: '#/components/schemas/V3.FareEstimateResultStatus'
+        FareEstimateResult:
+          $ref: '#/components/schemas/V3.FareEstimateResult'
+x-refined-from:
+- public-transport-victoria-timetable-swagger-v3.json
+- public-transport-victoria-timetable-openapi.yml

@@ -1,0 +1,279 @@
+openapi: 3.2.0
+info:
+  title: Public Transport Victoria Directions API
+  version: v3
+  contact:
+    name: Public Transport Victoria
+    url: http://ptv.vic.gov.au/digital
+  license:
+    name: Creative Commons Attribution 4.0 International
+    url: https://creativecommons.org/licenses/by/4.0/
+  termsOfService: See http://ptv.vic.gov.au/ptv-timetable-api/
+  description: 'Operations tagged Directions across 2 of this provider''s published API definitions: public-transport-victoria-timetable-swagger-v3.json, public-transport-victoria-timetable-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://timetableapi.ptv.vic.gov.au
+- url: http://timetableapi.ptv.vic.gov.au
+tags:
+- name: Directions
+paths:
+  /v3/directions/route/{route_id}:
+    get:
+      tags:
+      - Directions
+      summary: View directions that a route travels in
+      operationId: Directions_ForRoute
+      parameters:
+      - name: route_id
+        in: path
+        description: Identifier of route; values returned by Routes API - v3/routes
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The directions that a specified route travels in.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.DirectionsResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.DirectionsResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+  /v3/directions/{direction_id}:
+    get:
+      tags:
+      - Directions
+      summary: View all routes for a direction of travel
+      operationId: Directions_ForDirection
+      parameters:
+      - name: direction_id
+        in: path
+        description: Identifier of direction of travel; values returned by Directions API - /v3/directions/route/{route_id}
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All routes that travel in the specified direction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.DirectionsResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.DirectionsResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+  /v3/directions/{direction_id}/route_type/{route_type}:
+    get:
+      tags:
+      - Directions
+      summary: View all routes of a particular type for a direction of travel
+      operationId: Directions_ForDirectionAndType
+      parameters:
+      - name: direction_id
+        in: path
+        description: Identifier of direction of travel; values returned by Directions API - /v3/directions/route/{route_id}
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: route_type
+        in: path
+        description: Number identifying transport mode; values returned via RouteTypes API
+        required: true
+        schema:
+          type: integer
+          format: int32
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All routes of the specified route type that travel in the specified direction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.DirectionsResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.DirectionsResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+components:
+  schemas:
+    V3.Status:
+      type: object
+      properties:
+        version:
+          description: API Version number
+          type: string
+        health:
+          format: int32
+          description: API system health status (0=offline, 1=online)
+          enum:
+          - 0
+          - 1
+          type: integer
+    V3.ErrorResponse:
+      description: An error response
+      type: object
+      properties:
+        message:
+          description: Error message
+          type: string
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.DirectionWithDescription:
+      type: object
+      properties:
+        route_direction_description:
+          type: string
+        direction_id:
+          format: int32
+          description: Direction of travel identifier
+          type: integer
+        direction_name:
+          description: Name of direction of travel
+          type: string
+        route_id:
+          format: int32
+          description: Route identifier
+          type: integer
+        route_type:
+          format: int32
+          description: Transport mode identifier
+          type: integer
+    V3.DirectionsResponse:
+      type: object
+      properties:
+        directions:
+          description: Directions of travel of route
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.DirectionWithDescription'
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+x-refined-from:
+- public-transport-victoria-timetable-swagger-v3.json
+- public-transport-victoria-timetable-openapi.yml

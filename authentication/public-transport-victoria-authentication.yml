@@ -1,0 +1,24 @@
+generated: '2026-10-22'
+method: searched
+source: https://www.vic.gov.au/sites/default/files/2025-06/PTV-Timetable-API-key-and-signature-document.rtf
+docs: https://www.vic.gov.au/public-transport-timetable-api
+note: The Swagger 2.0 contract declares no securityDefinitions; every operation instead takes `devid` ("Your developer id") and `signature` ("Authentication signature for request") query parameters. Scheme details below are from PTV's key-and-signature document.
+schemes:
+- name: devid-hmac-signature
+  type: apiKey
+  in: query
+  parameters:
+  - name: devid
+    description: User Id ("devid") issued by PTV
+  - name: signature
+    description: HMAC-SHA1 of the request path and query (minus the base URL, including devid), keyed with the API key
+  algorithm: HMAC-SHA1
+  key_format: The API key consists of a 128bit GUID.
+  signature_text: 'The signature value is a HMAC-SHA1 hash of the completed request (minus the base URL but including your user ID, known as "devid") and the API key'
+  case_sensitive: true
+  provisioning:
+    self_service: false
+    text: Send an email to APIKeyRequest@ptv.vic.gov.au with "PTV Timetable API – request for key" in the subject line; PTV sends an API key and a user Id by return email.
+  key_expiry: If you haven't used the API for over 3 months, we may disable your API key and remove you from the list – but you can always register for a new key if you need one.
+  samples: [C#, Java, Objective C, Python]
+oauth: false

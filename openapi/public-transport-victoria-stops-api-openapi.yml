@@ -1,0 +1,916 @@
+openapi: 3.2.0
+info:
+  title: Public Transport Victoria Stops API
+  version: v3
+  contact:
+    name: Public Transport Victoria
+    url: http://ptv.vic.gov.au/digital
+  license:
+    name: Creative Commons Attribution 4.0 International
+    url: https://creativecommons.org/licenses/by/4.0/
+  termsOfService: See http://ptv.vic.gov.au/ptv-timetable-api/
+  description: 'Operations tagged Stops across 2 of this provider''s published API definitions: public-transport-victoria-timetable-swagger-v3.json, public-transport-victoria-timetable-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://timetableapi.ptv.vic.gov.au
+- url: http://timetableapi.ptv.vic.gov.au
+tags:
+- name: Stops
+paths:
+  /v3/stops/{stop_id}/route_type/{route_type}:
+    get:
+      tags:
+      - Stops
+      summary: View facilities at a specific stop (Metro and V/Line stations only)
+      operationId: Stops_StopDetails
+      parameters:
+      - name: stop_id
+        in: path
+        description: Identifier of stop; values returned by Stops API
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: route_type
+        in: path
+        description: Number identifying transport mode; values returned via RouteTypes API
+        required: true
+        schema:
+          type: integer
+          format: int32
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+      - name: stop_location
+        in: query
+        description: Indicates if stop location information will be returned (default = false)
+        required: false
+        schema:
+          type: boolean
+      - name: stop_amenities
+        in: query
+        description: Indicates if stop amenity information will be returned (default = false)
+        required: false
+        schema:
+          type: boolean
+      - name: stop_accessibility
+        in: query
+        description: Indicates if stop accessibility information will be returned (default = false)
+        required: false
+        schema:
+          type: boolean
+      - name: stop_contact
+        in: query
+        description: Indicates if stop contact information will be returned (default = false)
+        required: false
+        schema:
+          type: boolean
+      - name: stop_ticket
+        in: query
+        description: Indicates if stop ticket information will be returned (default = false)
+        required: false
+        schema:
+          type: boolean
+      - name: gtfs
+        in: query
+        description: Incdicates whether the stop_id is a GTFS ID or not
+        required: false
+        schema:
+          type: boolean
+      - name: stop_staffing
+        in: query
+        description: Indicates if stop staffing information will be returned (default = false)
+        required: false
+        schema:
+          type: boolean
+      - name: stop_disruptions
+        in: query
+        description: Indicates if stop disruption information will be returned (default = false)
+        required: false
+        schema:
+          type: boolean
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Stop location, amenity and accessibility facility information for the specified stop (metropolitan and V/Line stations only).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.StopResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.StopResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+  /v3/stops/route/{route_id}/route_type/{route_type}:
+    get:
+      tags:
+      - Stops
+      summary: View all stops on a specific route
+      operationId: Stops_StopsForRoute
+      parameters:
+      - name: route_id
+        in: path
+        description: Identifier of route; values returned by Routes API - v3/routes
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: route_type
+        in: path
+        description: Number identifying transport mode; values returned via RouteTypes API
+        required: true
+        schema:
+          type: integer
+          format: int32
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+      - name: direction_id
+        in: query
+        description: Direction for which the stops need to be returned
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: stop_disruptions
+        in: query
+        description: Flag to specify whether disruptions should be included in the response
+        required: false
+        schema:
+          type: boolean
+      - name: include_geopath
+        in: query
+        description: Flag to specify whether geo_path should be included in the response
+        required: false
+        schema:
+          type: boolean
+      - name: geopath_utc
+        in: query
+        description: Filter geopaths by date (ISO 8601 UTC format) (default = current date)
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: include_advertised_interchange
+        in: query
+        description: 'Flag to specify whether additional stops for interchanges should be included in the response. Note-: To make use of this flag please pass in direction_id.'
+        required: false
+        schema:
+          type: boolean
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All stops on the specified route.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.StopsOnRouteResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.StopsOnRouteResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+  /v3/stops/location/{latitude},{longitude}:
+    get:
+      tags:
+      - Stops
+      summary: View all stops near a specific location
+      operationId: Stops_StopsByGeolocation
+      parameters:
+      - name: latitude
+        in: path
+        description: Geographic coordinate of latitude
+        required: true
+        schema:
+          type: number
+          format: float
+      - name: longitude
+        in: path
+        description: Geographic coordinate of longitude
+        required: true
+        schema:
+          type: number
+          format: float
+      - name: route_types
+        in: query
+        description: Filter by route_type; values returned via RouteTypes API
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int32
+            enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+      - name: max_results
+        in: query
+        description: Maximum number of results returned (default = 30)
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: max_distance
+        in: query
+        description: Filter by maximum distance (in metres) from location specified via latitude and longitude parameters (default = 300)
+        required: false
+        schema:
+          type: number
+          format: double
+      - name: stop_disruptions
+        in: query
+        description: Indicates if stop disruption information will be returned (default = false)
+        required: false
+        schema:
+          type: boolean
+      - name: token
+        in: query
+        description: Please ignore
+        required: false
+        schema:
+          type: string
+      - name: devid
+        in: query
+        description: Your developer id
+        required: false
+        schema:
+          type: string
+      - name: signature
+        in: query
+        description: Authentication signature for request
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All stops near the specified location.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.StopsByDistanceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.StopsByDistanceResponse'
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/V3.ErrorResponse'
+    servers:
+    - url: https://timetableapi.ptv.vic.gov.au
+    - url: http://timetableapi.ptv.vic.gov.au
+components:
+  schemas:
+    V3.StopGeosearch:
+      type: object
+      properties:
+        disruption_ids:
+          description: Disruption information identifier(s)
+          type: array
+          items:
+            format: int64
+            type: integer
+        stop_distance:
+          format: float
+          description: Distance of stop from input location (in metres); returns 0 if no location is input
+          type: number
+        stop_suburb:
+          description: suburb of stop
+          type: string
+        stop_name:
+          description: Name of stop
+          type: string
+        stop_id:
+          format: int32
+          description: Stop identifier
+          type: integer
+        route_type:
+          format: int32
+          description: Transport mode identifier
+          type: integer
+        routes:
+          description: List of routes travelling through the stop
+          type: array
+          items:
+            type: object
+        stop_latitude:
+          format: float
+          description: Geographic coordinate of latitude at stop
+          type: number
+        stop_longitude:
+          format: float
+          description: Geographic coordinate of longitude at stop
+          type: number
+        stop_landmark:
+          description: Landmark in proximity of stop
+          type: string
+        stop_sequence:
+          format: int32
+          description: Sequence of the stop on the route/run; return 0 when route_id or run_id not specified. Order ascendingly by this field (when non zero) to get physical order (earliest first) of stops on the route_id/run_id.
+          type: integer
+    V3.StopResponse:
+      type: object
+      properties:
+        stop:
+          $ref: '#/components/schemas/V3.StopDetails'
+          description: A metropolitan or V/Line train station
+        disruptions:
+          description: Disruption information applicable to relevant routes or stops
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/V3.Disruption'
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.StopAccessibilityWheelchair:
+      type: object
+      properties:
+        accessible_ramp:
+          type: boolean
+        parking:
+          description: Indicates if there is at least one accessible parking spot at the stop that complies with the Disability Standards for Accessible Public Transport under the Disability Discrimination Act (1992)
+          type: boolean
+        telephone:
+          description: Indicates if there is at least one accessible telephone at the stop/platform that complies with the Disability Standards for Accessible Public Transport under the Disability Discrimination Act (1992)
+          type: boolean
+        toilet:
+          description: Indicates if there is at least one accessible toilet at the stop/platform that complies with the Disability Standards for Accessible Public Transport under the Disability Discrimination Act (1992)
+          type: boolean
+        low_ticket_counter:
+          description: Indicates if there is at least one low ticket counter at the stop that complies with the Disability Standards for Accessible Public Transport under the Disability Discrimination Act (1992)
+          type: boolean
+        manouvering:
+          description: Indicates if there is a space for mobility device to board on or off a transport mode
+          type: boolean
+        raised_platform:
+          description: Indicates if there is a raised platform to board a train
+          type: boolean
+        ramp:
+          description: Indicates if there are ramps (&lt;1:14) at the stop/platform
+          type: boolean
+        secondary_path:
+          description: Indicates if there is a path beyond the stop which is accessible
+          type: boolean
+        raised_platform_shelther:
+          description: Indicates if there is shelter near the raised platform
+          type: boolean
+        steep_ramp:
+          description: Indicates if there are ramps (&gt;1:14) at the stop/platform
+          type: boolean
+    V3.StopAccessibility:
+      type: object
+      properties:
+        lighting:
+          description: Indicates if there is lighting at the stop
+          type: boolean
+        platform_number:
+          format: int32
+          description: Indicates the platform number for xivic information (Platform 0 indicates general stop facilities)
+          type: integer
+        audio_customer_information:
+          description: Indicates if there is at least one audio customer information at the stop/platform
+          type: boolean
+        escalator:
+          description: Indicates if there is at least one accessible escalator at the stop/platform that complies with the Disability Standards for Accessible Public Transport under the Disability Discrimination Act (1992)
+          type: boolean
+        hearing_loop:
+          description: Indicates if there is a hearing loop facility at the stop/platform
+          type: boolean
+        lift:
+          description: Indicates if there is an elevator at the stop/platform
+          type: boolean
+        stairs:
+          description: Indicates if there are stairs available in the stop
+          type: boolean
+        stop_accessible:
+          description: Indicates if the stop is accessible
+          type: boolean
+        tactile_ground_surface_indicator:
+          description: Indicates if there are tactile tiles (also known as tactile ground surface indicators, or TGSIs) at the stop
+          type: boolean
+        waiting_room:
+          description: Indicates if there is a general waiting area at the stop
+          type: boolean
+        wheelchair:
+          $ref: '#/components/schemas/V3.StopAccessibilityWheelchair'
+          description: Facilities relating to the accessibility of the stop by wheelchair
+    V3.StopStaffing:
+      type: object
+      properties:
+        fri_am_from:
+          description: Stop staffing hours
+          type: string
+        fri_am_to:
+          description: Stop staffing hours
+          type: string
+        fri_pm_from:
+          description: Stop staffing hours
+          type: string
+        fri_pm_to:
+          description: Stop staffing hours
+          type: string
+        mon_am_from:
+          description: Stop staffing hours
+          type: string
+        mon_am_to:
+          description: Stop staffing hours
+          type: string
+        mon_pm_from:
+          description: Stop staffing hours
+          type: string
+        mon_pm_to:
+          description: Stop staffing hours
+          type: string
+        ph_additional_text:
+          description: Stop staffing hours
+          type: string
+        ph_from:
+          description: Stop staffing hours
+          type: string
+        ph_to:
+          description: Stop staffing hours
+          type: string
+        sat_am_from:
+          description: Stop staffing hours
+          type: string
+        sat_am_to:
+          description: Stop staffing hours
+          type: string
+        sat_pm_from:
+          description: Stop staffing hours
+          type: string
+        sat_pm_to:
+          description: Stop staffing hours
+          type: string
+        sun_am_from:
+          description: Stop staffing hours
+          type: string
+        sun_am_to:
+          description: Stop staffing hours
+          type: string
+        sun_pm_from:
+          description: Stop staffing hours
+          type: string
+        sun_pm_to:
+          description: Stop staffing hours
+          type: string
+        thu_am_from:
+          description: Stop staffing hours
+          type: string
+        thu_am_to:
+          description: Stop staffing hours
+          type: string
+        thu_pm_from:
+          description: Stop staffing hours
+          type: string
+        thu_pm_to:
+          description: Stop staffing hours
+          type: string
+        tue_am_from:
+          description: Stop staffing hours
+          type: string
+        tue_am_to:
+          description: Stop staffing hours
+          type: string
+        tue_pm_from:
+          description: Stop staffing hours
+          type: string
+        tue_pm_to:
+          description: Stop staffing hours
+          type: string
+        wed_am_from:
+          description: Stop staffing hours
+          type: string
+        wed_am_to:
+          description: Stop staffing hours
+          type: string
+        wed_pm_from:
+          description: Stop staffing hours
+          type: string
+        wed_pm_To:
+          description: Stop staffing hours
+          type: string
+    V3.StopGps:
+      type: object
+      properties:
+        latitude:
+          format: float
+          description: Geographic coordinate of latitude at stop
+          type: number
+        longitude:
+          format: float
+          description: Geographic coordinate of longitude at stop
+          type: number
+    V3.ErrorResponse:
+      description: An error response
+      type: object
+      properties:
+        message:
+          description: Error message
+          type: string
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.DisruptionStop:
+      type: object
+      properties:
+        stop_id:
+          format: int32
+          type: integer
+        stop_name:
+          type: string
+    V3.Disruption:
+      type: object
+      properties:
+        disruption_id:
+          format: int64
+          description: Disruption information identifier
+          type: integer
+        title:
+          description: Headline title summarising disruption information
+          type: string
+        url:
+          description: URL of relevant article on PTV website
+          type: string
+        description:
+          description: Description of the disruption
+          type: string
+        disruption_status:
+          description: Status of the disruption (e.g. "Planned", "Current")
+          type: string
+        disruption_type:
+          description: Type of disruption
+          type: string
+        published_on:
+          format: date-time
+          description: Date and time disruption information is published on PTV website, in ISO 8601 UTC format
+          type: string
+        last_updated:
+          format: date-time
+          description: Date and time disruption information was last updated by PTV, in ISO 8601 UTC format
+          type: string
+        from_date:
+          format: date-time
+          description: Date and time at which disruption begins, in ISO 8601 UTC format
+          type: string
+        to_date:
+          format: date-time
+          description: Date and time at which disruption ends, in ISO 8601 UTC format (returns null if unknown)
+          type: string
+        routes:
+          description: Route relevant to a disruption (if applicable)
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.DisruptionRoute'
+        stops:
+          description: Stop relevant to a disruption (if applicable)
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.DisruptionStop'
+        colour:
+          type: string
+        display_on_board:
+          type: boolean
+        display_status:
+          type: boolean
+    V3.DisruptionDirection:
+      type: object
+      properties:
+        route_direction_id:
+          format: int32
+          description: Route and direction of travel combination identifier
+          type: integer
+        direction_id:
+          format: int32
+          description: Direction of travel identifier
+          type: integer
+        direction_name:
+          description: Name of direction of travel
+          type: string
+        service_time:
+          description: Time of service to which disruption applies, in 24 hour clock format (HH:MM:SS) AEDT/AEST; returns null if disruption applies to multiple (or no) services
+          type: string
+    V3.StopAmenityDetails:
+      type: object
+      properties:
+        toilet:
+          description: Indicates if there is a public toilet at or near the stop
+          type: boolean
+        taxi_rank:
+          description: Indicates if there is a taxi rank at or near the stop
+          type: boolean
+        car_parking:
+          description: The number of free car parking spots at the stop
+          type: string
+        cctv:
+          description: Indicates if there are CCTV (i.e. closed circuit television) cameras at the stop
+          type: boolean
+    V3.StopTicket:
+      type: object
+      properties:
+        ticket_type:
+          description: Indicates the ticket type for the stop (myki, paper or both)
+          type: string
+        zone:
+          description: Description of the zone
+          type: string
+        is_free_fare_zone:
+          description: Indicates whether the stop is inside the free fare zone
+          type: boolean
+        ticket_machine:
+          type: boolean
+        ticket_checks:
+          type: boolean
+        vline_reservation:
+          type: boolean
+        ticket_zones:
+          type: array
+          items:
+            format: int32
+            type: integer
+    V3.Status:
+      type: object
+      properties:
+        version:
+          description: API Version number
+          type: string
+        health:
+          format: int32
+          description: API system health status (0=offline, 1=online)
+          enum:
+          - 0
+          - 1
+          type: integer
+    V3.StopsOnRouteResponse:
+      type: object
+      properties:
+        stops:
+          description: Train stations, tram stops, bus stops, regional coach stops or Night Bus stops
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.StopOnRoute'
+        disruptions:
+          description: Disruption information applicable to relevant routes or stops
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/V3.Disruption'
+        geopath:
+          description: GeoPath for the route
+          type: array
+          items:
+            type: object
+        RequestUrl:
+          description: EFA URL used to fetch stops (for debugging)
+          type: array
+          items:
+            type: string
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.StopLocation:
+      type: object
+      properties:
+        gps:
+          $ref: '#/components/schemas/V3.StopGps'
+          description: GPS coordinates of the stop
+    V3.InterchangeRoute:
+      description: Information about route interchange
+      type: object
+      properties:
+        route_id:
+          format: int32
+          description: Route identifier
+          type: integer
+        advertised:
+          description: Indicates whether the interchange information is shown to end users
+          type: boolean
+    V3.DisruptionRoute:
+      type: object
+      properties:
+        route_type:
+          format: int32
+          description: Transport mode identifier
+          type: integer
+        route_id:
+          format: int32
+          description: Route identifier
+          type: integer
+        route_name:
+          description: Name of route
+          type: string
+        route_number:
+          description: Route number presented to public (i.e. not route_id)
+          type: string
+        route_gtfs_id:
+          description: GTFS Identifer of the route
+          type: string
+        direction:
+          $ref: '#/components/schemas/V3.DisruptionDirection'
+          description: Direction of travel relevant to a disruption (if applicable)
+    V3.StopsByDistanceResponse:
+      type: object
+      properties:
+        stops:
+          description: Train stations, tram stops, bus stops, regional coach stops or Night Bus stops
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.StopGeosearch'
+        disruptions:
+          description: Disruption information applicable to relevant routes or stops
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/V3.Disruption'
+        status:
+          $ref: '#/components/schemas/V3.Status'
+          description: API Status / Metadata
+    V3.StopOnRoute:
+      type: object
+      properties:
+        disruption_ids:
+          description: Disruption information identifier(s)
+          type: array
+          items:
+            format: int64
+            type: integer
+        stop_suburb:
+          description: suburb of stop
+          type: string
+        route_type:
+          format: int32
+          description: Transport mode identifier
+          type: integer
+        stop_latitude:
+          format: float
+          description: Geographic coordinate of latitude at stop
+          type: number
+        stop_longitude:
+          format: float
+          description: Geographic coordinate of longitude at stop
+          type: number
+        stop_sequence:
+          format: int32
+          description: Sequence of the stop on the route/run; return 0 when route_id or run_id not specified. Order ascendingly by this field (when non zero) to get physical order (earliest first) of stops on the route_id/run_id.
+          type: integer
+        stop_ticket:
+          $ref: '#/components/schemas/V3.StopTicket'
+          description: Stop ticket information
+        interchange:
+          description: Interchange information for connecting routes at this stop
+          type: array
+          items:
+            $ref: '#/components/schemas/V3.InterchangeRoute'
+        stop_id:
+          format: int32
+          description: Stop identifier
+          type: integer
+        stop_name:
+          description: Name of stop
+          type: string
+        stop_landmark:
+          description: Landmark in proximity of stop
+          type: string
+    V3.StopDetails:
+      type: object
+      properties:
+        disruption_ids:
+          description: Disruption information identifier(s)
+          type: array
+          items:
+            format: int64
+            type: integer
+        station_type:
+          description: Type of metropolitan train station (i.e. "Premium", "Host" or "Unstaffed" station); returns null for V/Line train
+          type: string
+        station_description:
+          description: The definition applicable to the station_type; returns null for V/Line train
+          type: string
+        route_type:
+          format: int32
+          description: Transport mode identifier
+          type: integer
+        stop_location:
+          $ref: '#/components/schemas/V3.StopLocation'
+          description: Location details of the stop
+        stop_amenities:
+          $ref: '#/components/schemas/V3.StopAmenityDetails'
+          description: Amenity and facility details at the stop
+        stop_accessibility:
+          $ref: '#/components/schemas/V3.StopAccessibility'
+          description: Facilities relating to the accessibility of the stop
+        stop_staffing:
+          $ref: '#/components/schemas/V3.StopStaffing'
+          description: Staffing details for the stop
+        routes:
+          description: Routes travelling through the stop
+          type: array
+          items:
+            type: object
+        stop_id:
+          format: int32
+          description: Stop identifier
+          type: integer
+        stop_name:
+          description: Name of stop
+          type: string
+        stop_landmark:
+          description: Landmark in proximity of stop
+          type: string
+x-refined-from:
+- public-transport-victoria-timetable-swagger-v3.json
+- public-transport-victoria-timetable-openapi.yml

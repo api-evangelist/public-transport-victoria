@@ -1,0 +1,42 @@
+name: Public Transport Victoria agent skills
+generated: '2026-10-22'
+method: generated
+source: Generated from openapi/public-transport-victoria-timetable-openapi.yml; every operationId verified in the spec. No provider-published skills or AGENTS.md found.
+skills:
+- file: public-transport-victoria-find-next-departures.md
+  name: Find next departures from a stop
+  api: openapi/public-transport-victoria-timetable-openapi.yml
+  operations:
+  - Search_Search
+  - Stops_StopsByGeolocation
+  - RouteTypes_GetRouteTypes
+  - Departures_GetForStop
+  - Departures_GetForStopAndRoute
+- file: public-transport-victoria-check-disruptions.md
+  name: Check service disruptions
+  api: openapi/public-transport-victoria-timetable-openapi.yml
+  operations:
+  - Disruptions_GetAllDisruptions
+  - Disruptions_GetDisruptionsByRoute
+  - Disruptions_GetDisruptionsByStop
+  - Disruptions_GetDisruptionsByRouteAndStop
+  - Disruptions_GetDisruptionById
+  - Disruptions_GetDisruptionModes
+- file: public-transport-victoria-trace-a-service-run.md
+  name: Trace a service run and its stopping pattern
+  api: openapi/public-transport-victoria-timetable-openapi.yml
+  operations:
+  - Routes_OneOrMoreRoutes
+  - Routes_RouteFromId
+  - Directions_ForRoute
+  - Runs_ForRoute
+  - Runs_ForRunAndRouteType
+  - Patterns_GetPatternByRun
+  - Stops_StopsForRoute
+- file: public-transport-victoria-plan-ticketing.md
+  name: Find myki outlets and estimate a fare
+  api: openapi/public-transport-victoria-timetable-openapi.yml
+  operations:
+  - Outlets_GetOutletsByGeolocation
+  - Outlets_GetAllOutlets
+  - FareEstimate_GetFareEstimateByZone
