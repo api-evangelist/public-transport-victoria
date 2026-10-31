@@ -64,5 +64,129 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Public Transport Victoria is a company surfaced via the API Evangelist harvest backlog (source: australia-apidays-2026) and added to the network as a stub for full-pipeline profiling.
-- https://ptv.vic.gov.au/
+Public Transport Victoria (PTV) is the Victorian Government public transport authority in Australia, covering metropolitan and regional train, tram and bus services. It publishes the PTV Timetable API (Version 3, documented in Swagger), which provides scheduled timetable, route and stop data for all Victorian train, tram and bus services including Night Network, real-time data for metropolitan services where available, disruption information, stop facility information and myki ticket outlet data. Access requires a developer ID and key; the dataset is listed on DataVic under the Department of Transport. ptv.vic.gov.au now redirects to transport.vic.gov.au.
+
+**Areas:** Company · Public Transport · Government · Transit · Timetables · Australia · Open Data
+
+## Public Transport Victoria on APIs.io
+
+Everything profiled for Public Transport Victoria is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/public-transport-victoria/](https://apis.io/providers/public-transport-victoria/)** — or go straight to one of the APIs or properties below.
+
+### APIs (11)
+
+- [Public Transport Victoria Departures API](https://apis.io/apis/public-transport-victoria/public-transport-victoria-departures-api/) — The Departures API from Public Transport Victoria — 2 operation(s) for departures.
+- [Public Transport Victoria Directions API](https://apis.io/apis/public-transport-victoria/public-transport-victoria-directions-api/) — The Directions API from Public Transport Victoria — 3 operation(s) for directions.
+- [Public Transport Victoria Disruptions API](https://apis.io/apis/public-transport-victoria/public-transport-victoria-disruptions-api/) — The Disruptions API from Public Transport Victoria — 6 operation(s) for disruptions.
+- [Public Transport Victoria Fare Estimate API](https://apis.io/apis/public-transport-victoria/public-transport-victoria-fareestimate-api/) — The FareEstimate API from Public Transport Victoria — 1 operation(s) for fareestimate.
+- [Public Transport Victoria Outlets API](https://apis.io/apis/public-transport-victoria/public-transport-victoria-outlets-api/) — The Outlets API from Public Transport Victoria — 2 operation(s) for outlets.
+- [Public Transport Victoria Patterns API](https://apis.io/apis/public-transport-victoria/public-transport-victoria-patterns-api/) — The Patterns API from Public Transport Victoria — 1 operation(s) for patterns.
+- [Public Transport Victoria Routes API](https://apis.io/apis/public-transport-victoria/public-transport-victoria-routes-api/) — The Routes API from Public Transport Victoria — 2 operation(s) for routes.
+- [Public Transport Victoria Route Types API](https://apis.io/apis/public-transport-victoria/public-transport-victoria-routetypes-api/) — The RouteTypes API from Public Transport Victoria — 1 operation(s) for routetypes.
+- [Public Transport Victoria Runs API](https://apis.io/apis/public-transport-victoria/public-transport-victoria-runs-api/) — The Runs API from Public Transport Victoria — 4 operation(s) for runs.
+- [Public Transport Victoria Search API](https://apis.io/apis/public-transport-victoria/public-transport-victoria-search-api/) — The Search API from Public Transport Victoria — 1 operation(s) for search.
+- [Public Transport Victoria Stops API](https://apis.io/apis/public-transport-victoria/public-transport-victoria-stops-api/) — The Stops API from Public Transport Victoria — 3 operation(s) for stops.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Public Transport Victoria Agentic Access](https://apis.io/agentic-access/public-transport-victoria/public-transport-victoria-agentic-access/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Public Transport Victoria Timetable Overlay](https://apis.io/overlays/public-transport-victoria/public-transport-victoria-timetable-overlay/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [Public Transport Victoria API Rules](https://apis.io/rules/public-transport-victoria/public-transport-victoria-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Public Transport Victoria Authentication](https://apis.io/security/public-transport-victoria/public-transport-victoria-authentication/)
+- [Public Transport Victoria Domain Security](https://apis.io/security/public-transport-victoria/public-transport-victoria-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Public Transport Victoria Plans Pricing](https://apis.io/plans/public-transport-victoria/public-transport-victoria-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Public Transport Victoria Rate Limits](https://apis.io/rate-limits/public-transport-victoria/public-transport-victoria-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://ptv.vic.gov.au/)
+- [Documentation](https://discover.data.vic.gov.au/dataset/ptv-timetable-api)
+- [API reference](https://timetableapi.ptv.vic.gov.au/swagger/ui/index)
+- [Support](https://www.developer.vic.gov.au/help)
+- [Terms of service](https://www.developer.vic.gov.au/terms)
+- [Privacy policy](https://www.developer.vic.gov.au/privacy)
+
+## API Evangelist rating
+
+**Kin Score 43.1** — developing · rubric 0.24.0 · scored 2026-10-22
+
+| Facet | Score |
+|---|---|
+| Discoverability | 64.3 |
+| Contract quality | 38.8 |
+| Contract governance | 79.1 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 39.8 |
+| Access clarity | 34.2 |
+
+**Agent readiness 36.6** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | unknown |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | unknown |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 24.5** — Government & Public Sector
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/public-transport-victoria/](https://apis.io/providers/public-transport-victoria/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Public Transport Victoria: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/public-transport-victoria/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
